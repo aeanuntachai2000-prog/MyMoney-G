@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="th" style="background:#000000">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="MyMoney">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="mymoney-favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="mymoney-icon.png">
+<title>MyMoney</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#101318;--surface:#1A2028;--card:#1A2028;--panel:#1A2028;--panel2:#222A35;
+  --ink:#F1F5F9;--muted:#94A3B8;--line:#2A3441;--border:#2A3441;
+  --emerald:#10B981;--emerald-deep:#059669;--green:#10B981;
+  --gold:#10B981;--champagne:#10B981;
+  --red:#FF6B7A;--danger:#FF6B7A;
+  --field:#141922;--shadow:0 18px 40px #00000066;
+  --radius:16px;--radius-sm:12px;
+  --g:#10B981;--gd:#2A3441;
+}
+*{box-sizing:border-box}
+html,body{-webkit-text-size-adjust:100%;touch-action:pan-x pan-y}
+[hidden]{display:none!important}
+html{background:#101318!important;height:100%;overscroll-behavior:none}body{margin:0;background:#101318!important;color:var(--ink);font:15px "Inter","Noto Sans Thai",-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif;font-variant-numeric:tabular-nums;min-height:100%;overscroll-behavior:none;-webkit-overflow-scrolling:touch}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:680px;margin:auto;padding:14px 12px calc(84px + env(safe-area-inset-bottom));overscroll-behavior:contain}
+.top{display:flex;justify-content:space-between;align-items:center;margin:2px 3px 12px}.brand{display:flex;align-items:center;gap:11px;min-width:0}.brand-icon{width:48px;height:48px;border-radius:14px;object-fit:cover;flex-shrink:0;border:1px solid #10B981;box-shadow:0 0 18px #10B98133}.brand-copy{min-width:0}
+.eyebrow{font-size:9.5px;letter-spacing:1.2px;color:var(--muted);font-weight:600;margin:0 0 3px}
+h1{font-size:21px;margin:0;font-weight:600}h2{font-size:16px;margin:0;font-weight:600}h3{font-size:14px;margin:0;font-weight:600}
+.small{font-size:11px;color:var(--muted)}
+.btn{border:1px solid transparent;border-radius:10px;padding:8px 12px;font-weight:500;transition:background .15s,border-color .15s}
+.primary{background:linear-gradient(135deg,#10B981,#059669);color:#052E24;border-color:#10B981;box-shadow:0 8px 22px #10B98133}
+.secondary{background:var(--panel2);border-color:var(--line);color:var(--ink)}
+.danger{background:#2A1418;color:#FF6B7A;border-color:#5A2530}
+.balance{background:linear-gradient(135deg,#1E293B,#1A2028);color:var(--ink);padding:16px;border:1px solid #2A3441;border-radius:18px;box-shadow:0 14px 32px #00000066}
+.balance small{color:#94A3B8}
+.big{font-size:clamp(26px,7vw,34px);font-weight:600;margin:6px 0 12px;overflow-wrap:anywhere}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px solid #ffffff20;padding-top:10px}
+.stats div{display:grid;gap:4px}.stats strong{font-size:15px}
+.inc{color:var(--green)}.exp{color:var(--red)}.balance .inc{color:#10B981}.balance .exp{color:#FF6B7A}
+.section{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:16px 3px 8px}
+.card{background:linear-gradient(180deg,#1A2028,#141922);border:1px solid #2A3441;border-radius:14px;padding:12px;box-shadow:0 8px 20px #00000044}
+.stack{display:grid;gap:8px}
+label{display:block;color:#94A3B8;font-size:11px;font-weight:500;margin:3px 0 4px}
+input,select{display:block;width:100%;min-width:0;max-width:100%;border:1px solid #2A3441;background:#141922;border-radius:10px;padding:8px 10px;color:#F1F5F9;font-size:14px}
+input:focus,select:focus{outline:2px solid #10B981;outline-offset:1px}
+input[type="date"],input[type="month"]{display:inline-block;font-variant-numeric:tabular-nums;box-sizing:border-box;min-width:0;max-width:100%;overflow:hidden;-webkit-appearance:none;appearance:none;white-space:nowrap;text-align:center;height:44px;min-height:44px;line-height:44px;padding:0 9px;font-size:13px;vertical-align:middle}
+input[type="date"]::-webkit-date-and-time-value,input[type="month"]::-webkit-date-and-time-value{min-height:100%;height:100%;line-height:44px;text-align:center;display:flex;align-items:center;justify-content:center}
+input[type="date"]::-webkit-datetime-edit,input[type="date"]::-webkit-datetime-edit-fields-wrapper,input[type="date"]::-webkit-datetime-edit-text,input[type="date"]::-webkit-datetime-edit-day-field,input[type="date"]::-webkit-datetime-edit-month-field,input[type="date"]::-webkit-datetime-edit-year-field,input[type="month"]::-webkit-datetime-edit,input[type="month"]::-webkit-datetime-edit-fields-wrapper,input[type="month"]::-webkit-datetime-edit-text,input[type="month"]::-webkit-datetime-edit-month-field,input[type="month"]::-webkit-datetime-edit-year-field{padding:0;margin:0}
+input[type="date"]::-webkit-inner-spin-button,input[type="month"]::-webkit-inner-spin-button{height:auto}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.grid>div{min-width:0}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.actions button{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 3px;color:#CBD5E1;font-weight:500}
+.actions button.active{border-color:#94A3B8;background:#334155;color:#fff}
+.amount{font-size:24px;font-weight:600}
+.save{width:100%;padding:14px;margin-top:3px}
+.page{display:none}.page.active{display:block}
+.list{display:grid;gap:9px}
+.item{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:12px}
+.ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:#2F3A46;color:#E2E8F0;flex-shrink:0}
+.details{flex:1;min-width:0}.title{font-weight:500;overflow-wrap:anywhere}
+.meta{font-size:11px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere;line-height:1.5}
+.right{text-align:right;flex-shrink:0;font-weight:600;overflow-wrap:anywhere;max-width:45%}
+.rowbuttons{display:flex;gap:7px;justify-content:flex-end;margin-top:5px}
+.rowbuttons button{border:0;background:none;color:var(--muted);font-size:11px;padding:3px}
+.empty{text-align:center;background:var(--panel);padding:24px;border-radius:15px;color:var(--muted);font-size:13px}
+.notice{background:#1E2630;padding:12px;border:1px solid var(--line);border-radius:13px;color:#CBD5E1;font-size:11px;line-height:1.6}
+.summaryline{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.summaryline:last-child{border-bottom:0}
+.progress{height:7px;background:#334155;border-radius:20px;overflow:hidden;margin-top:7px}
+.progress span{display:block;height:100%;background:#CBD5E1;border-radius:20px}
+.pill{font-size:10px;border-radius:20px;padding:4px 7px;background:#334155;color:#E2E8F0}
+.settings-row{display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid var(--line)}
+.settings-row:last-child{border-bottom:0}
+.settings-row .grow{flex:1;min-width:0}
+.settings-row input{max-width:125px;text-align:right}
+.settings-row button{flex-shrink:0}
+.bottom-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:#1A2028ee;backdrop-filter:blur(18px);border-top:1px solid #2A3441;padding:8px 5px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr)}
+.nav-btn{border:0;background:transparent;color:#94A3B8;font-size:10px;font-weight:500;display:grid;justify-items:center;gap:4px;padding:5px 0}
+.nav-btn .symbol{font-size:21px;line-height:1.1}
+.nav-btn.active{color:#10B981}
+.message{font-size:12px;color:var(--green);min-height:16px;margin:0}
+.slip-card{margin-bottom:12px;padding:0;overflow:hidden}.slip-toggle{width:100%;display:flex;align-items:center;gap:12px;text-align:left;border:0;background:transparent;color:var(--ink);padding:15px;min-width:0}.slip-toggle-icon{width:42px;height:42px;display:grid;place-items:center;flex-shrink:0;border-radius:12px;background:#2F3A46;font-size:21px}.slip-toggle-copy{flex:1;min-width:0}.slip-toggle-copy strong{display:block;font-size:14px}.slip-toggle-copy small{display:block;color:var(--muted);font-size:11px;line-height:1.45;margin-top:4px}.slip-toggle-arrow{color:var(--muted);font-size:18px;transition:transform .18s}.slip-toggle[aria-expanded="true"] .slip-toggle-arrow{transform:rotate(180deg)}.slip-panel{padding:0 15px 15px}.slip-preview{display:block;width:100%;max-height:260px;object-fit:contain;border-radius:12px;background:#141922;border:1px solid var(--line);margin-top:10px}.slip-progress{height:6px;border-radius:20px;background:#334155;overflow:hidden;margin:8px 0}.slip-progress span{display:block;height:100%;width:0;background:#CBD5E1;transition:width .2s}.slip-raw{font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;background:#141922;border:1px solid var(--line);border-radius:10px;padding:10px;max-height:150px;overflow:auto;color:#CBD5E1}
+footer{text-align:center;color:#94A3B8;font-size:11px;padding:24px 0 0}
+
+/* Daily chart */
+.daily-chart-card{margin-top:14px;overflow:hidden}
+.daily-chart-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.daily-chart-header h2{margin:4px 0}
+.daily-chart-eyebrow{font-size:9px;letter-spacing:1.5px;color:var(--muted);font-weight:600}
+.daily-chart-subtitle{font-size:11px;color:var(--muted);margin:3px 0 0;line-height:1.5}
+.daily-chart-icon{font-size:25px;color:#CBD5E1}
+.daily-chart-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px}
+.daily-chart-tabs{display:flex;gap:4px;padding:4px;background:#141922;border:1px solid var(--line);border-radius:12px}
+.daily-chart-tab{border:0;border-radius:9px;padding:4px 10px;background:transparent;color:#94A3B8;font-size:11px;font-weight:500;white-space:nowrap}
+.daily-chart-tab.active[data-chart-type="Expense"]{background:#334155;color:var(--red);box-shadow:0 1px 4px #00000020}
+.daily-chart-tab.active[data-chart-type="Income"]{background:#334155;color:var(--green);box-shadow:0 1px 4px #00000020}
+.daily-chart-range{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin-top:6px}
+.daily-chart-range label{display:flex;flex-direction:column;gap:5px;font-size:10px;color:var(--muted)}
+.daily-chart-range input{width:100%;min-width:0;max-width:100%;box-sizing:border-box;padding:0 8px;font-size:12px;height:34px;min-height:34px;line-height:34px;-webkit-appearance:none;appearance:none;overflow:hidden;white-space:nowrap;text-align:center}
+.daily-chart-presets{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.daily-chart-preset{padding:4px 8px;border:1px solid var(--line);border-radius:9px;background:#1A2028;color:var(--muted);font-size:10px;font-weight:500}
+.daily-chart-preset.active{border-color:#6EE7B7;color:#6EE7B7;background:#12312A}
+#dailyChartMonth{width:145px;max-width:45%;padding:9px 5px;font-size:12px}
+.daily-chart-total{display:flex;flex-direction:column;gap:5px;margin-top:6px;font-size:11px}
+.daily-chart-total span{font-size:11px;color:var(--muted)}
+.daily-chart-total strong{font-size:23px;line-height:1.35;overflow-wrap:anywhere;color:var(--red)}
+.daily-chart-bars{display:grid;grid-template-columns:repeat(31,minmax(0,1fr));align-items:end;gap:2px;height:90px;margin-top:6px;padding:8px 0 0;border-bottom:1px solid var(--line)}
+.daily-chart-bar-wrap{height:100%;display:flex;align-items:end;justify-content:center;min-width:0}
+.daily-chart-bar{display:block;width:100%;max-width:12px;min-height:3px;padding:0;border:0;border-radius:4px 4px 1px 1px;transition:height .18s ease;cursor:pointer}
+.daily-chart-bar.expense{background:#F87171}
+.daily-chart-bar.income{background:#6EE7B7}
+.daily-chart-bar.selected{outline:2px solid #F1F5F9;outline-offset:1px}
+.daily-chart-axis{display:grid;grid-template-columns:repeat(var(--days-in-month,31),minmax(0,1fr));gap:3px;margin-top:8px;font-size:10px;color:var(--muted)}
+.daily-chart-axis span{text-align:center;justify-self:stretch;white-space:nowrap}
+.daily-chart-selected{margin-top:4px;padding:10px;border-radius:11px;background:#1E2630;border:1px solid var(--line);color:#CBD5E1;font-size:10px;line-height:1.7}
+.daily-chart-selected strong{color:var(--ink)}
+.daily-chart-detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.daily-chart-detail-list{display:flex;flex-direction:column;gap:0;margin-top:7px}
+.daily-chart-detail-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.daily-chart-detail-name{min-width:0;overflow-wrap:anywhere;color:var(--ink);font-weight:650}
+.daily-chart-detail-meta{font-size:11px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+.daily-chart-detail-amount{white-space:nowrap;font-weight:500;color:var(--ink)}
+.daily-chart-detail-empty{padding:8px 0;color:var(--muted)}
+
+/* Reports analytics */
+.report-section-title{margin:14px 3px 6px}
+.report-section-title h2{margin:0}
+.report-subtitle{font-size:11px;color:var(--muted);line-height:1.55;margin:3px 0 0}
+.report-trend{display:grid;gap:8px}
+.trend-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.trend-list{display:grid;gap:10px}
+.trend-month{display:grid;grid-template-columns:48px minmax(0,1fr);gap:8px;align-items:center}
+.trend-month-label{font-size:11px;color:var(--muted)}
+.trend-bars{display:grid;gap:5px;min-width:0}
+.trend-bar-line{display:flex;align-items:center;gap:7px;min-width:0}
+.trend-bar-track{height:6px;flex:1;min-width:0;background:#2F3A46;border-radius:20px;overflow:hidden}
+.trend-bar-fill{height:100%;min-width:0;border-radius:20px}
+.trend-bar-fill.income{background:var(--green)}.trend-bar-fill.expense{background:var(--red)}
+.trend-value{font-size:10px;color:#E2E8F0;min-width:65px;text-align:right;font-variant-numeric:tabular-nums}
+.report-donut-layout{display:grid;grid-template-columns:minmax(120px, .85fr) minmax(0,1.15fr);gap:10px;align-items:center}
+.report-donut{width:min(100%,130px);aspect-ratio:1;border-radius:50%;margin:auto;position:relative;background:conic-gradient(#334155 0deg 360deg)}
+.report-donut::after{content:"";position:absolute;inset:25%;background:var(--panel);border:1px solid var(--line);border-radius:50%}
+.report-donut-center{position:absolute;z-index:1;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.report-donut-center strong{font-size:clamp(12px,3.8vw,18px);overflow-wrap:anywhere;max-width:90%}
+.report-donut-center span{font-size:10px;color:var(--muted);margin-top:3px}
+.report-legend{display:grid;gap:10px;min-width:0}
+.report-legend-row{display:grid;grid-template-columns:9px minmax(0,1fr) auto;align-items:center;gap:7px;font-size:11px}
+.report-legend-swatch{width:9px;height:9px;border-radius:3px}
+.report-legend-name{overflow-wrap:anywhere;color:#CBD5E1}
+.report-legend-value{font-weight:500;font-variant-numeric:tabular-nums;text-align:right}
+.report-compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.report-compare-item{background:#1F2937;border:1px solid var(--line);border-radius:11px;padding:10px;min-width:0}
+.report-compare-item span{display:block;font-size:11px;color:var(--muted);margin-bottom:7px}
+.report-compare-item strong{display:block;font-size:17px;overflow-wrap:anywhere}
+.report-change{font-size:11px;margin-top:6px;color:var(--muted);line-height:1.5}
+.report-change.good{color:var(--green)}.report-change.bad{color:var(--red)}
+.report-empty{font-size:12px;color:var(--muted);text-align:center;padding:20px 8px}
+
+/* Planning and goals */
+.feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.feature-link{display:flex;flex-direction:column;gap:5px;align-items:flex-start;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;color:var(--ink);min-width:0}
+.feature-link .feature-icon{width:26px;height:26px;border-radius:7px;font-size:14px;display:grid;place-items:center;background:#2F3A46}.feature-link strong{font-size:12px}.feature-link small{font-size:10px;color:var(--muted);line-height:1.4}
+.feature-card{margin-bottom:12px}.feature-form{display:grid;gap:10px}.feature-form .grid{align-items:end}
+.feature-item{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:7px;min-width:0}
+.feature-item-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.feature-item-head>div:first-child{min-width:0;flex:1}.feature-item strong{overflow-wrap:anywhere}.feature-meta{font-size:10.5px;color:var(--muted);line-height:1.6;margin-top:5px;overflow-wrap:anywhere}
+.feature-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.feature-actions .btn{padding:8px 10px;font-size:11px}
+.feature-progress{height:5px;background:#334155;border-radius:20px;overflow:hidden;margin-top:7px}.feature-progress span{display:block;height:100%;background:var(--green);border-radius:20px}
+.feature-progress.over span{background:var(--red)}
+.feature-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.feature-stat{background:#1F2937;border:1px solid var(--line);border-radius:8px;padding:5px 7px;min-width:0}.feature-stat span{display:block;color:var(--muted);font-size:11px}.feature-stat strong{display:block;margin-top:6px;font-size:15px;overflow-wrap:anywhere}
+.status-paid{color:var(--green)}.status-due{color:#FBBF24}
+.forecast-card{margin-top:12px;padding:10px}.forecast-card .feature-stat strong{font-size:clamp(14px,4vw,19px)}
+
+/* Collapsible sections */
+.settings-collapse-card{padding:0;overflow:hidden;margin-bottom:12px}
+.settings-collapse-toggle{width:100%;display:flex;align-items:center;gap:8px;text-align:left;border:0;background:transparent;color:var(--ink);padding:8px;min-width:0}
+.settings-collapse-symbol{width:28px;height:28px;display:grid;place-items:center;flex-shrink:0;border-radius:8px;background:#2F3A46;font-size:14px;color:#E2E8F0}
+.settings-collapse-copy{flex:1;min-width:0}
+.settings-collapse-copy strong{display:block;font-size:13px}
+.settings-collapse-copy small{display:block;color:var(--muted);font-size:10px;line-height:1.45;margin-top:2px}
+.settings-collapse-arrow{color:var(--muted);font-size:16px;transition:transform .18s}
+.settings-collapse-toggle[aria-expanded="true"] .settings-collapse-arrow{transform:rotate(180deg)}
+.settings-collapse-panel{padding:0 10px 10px}
+
+/* History filter */
+.history-filter-card{padding:0;overflow:hidden}
+.history-filter-toggle{width:100%;display:flex;align-items:center;gap:8px;text-align:left;border:0;background:transparent;color:var(--ink);padding:8px;min-width:0}
+.history-filter-symbol{width:28px;height:28px;display:grid;place-items:center;flex-shrink:0;border-radius:8px;background:#2F3A46;font-size:14px;color:#E2E8F0}
+.history-filter-copy{flex:1;min-width:0}
+.history-filter-copy strong{display:block;font-size:13px}
+.history-filter-copy small{display:block;color:var(--muted);font-size:10px;line-height:1.45;margin-top:2px}
+.history-filter-arrow{color:var(--muted);font-size:16px;transition:transform .18s}
+.history-filter-toggle[aria-expanded="true"] .history-filter-arrow{transform:rotate(180deg)}
+.history-filter-panel{padding:0 10px 10px}
+.history-list-heading{align-items:center;flex-wrap:wrap}
+.history-list-heading h3{flex:1;min-width:0;line-height:1.5}
+.history-limit-control{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.history-limit-control label{margin:0;white-space:nowrap}
+.history-limit-control select{width:auto;max-width:145px;padding:8px 9px;font-size:12px}
+
+/* History fields */
+#page-history .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: end; min-width: 0; }
+#page-history .grid > div { min-width: 0; width: 100%; }
+#page-history #filter, #page-history #historyMonth, #page-history #historyFrom, #page-history #historyTo { text-align: center; display: inline-block; box-sizing: border-box; width: 100%; min-width: 0; max-width: 100%; height: 44px; min-height: 44px; margin: 0; padding: 0 9px; font-family: inherit; font-size: 14px; line-height: 44px; border: 1px solid #334155; border-radius: 12px; vertical-align: middle; font-variant-numeric: tabular-nums; }
+
+/* Splash Screen */
+#splashScreen{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(1200px 800px at 50% -10%,#1f2630 0%,transparent 60%),radial-gradient(900px 700px at 100% 100%,#1a1f26 0%,transparent 55%),#000000;color:var(--ink);overflow:hidden;transition:opacity .6s ease,visibility .6s ease,transform .6s ease}
+#splashScreen.splash-hide{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.03)}
+.splash-inner{display:grid;place-items:center;gap:18px;text-align:center;padding:24px;max-width:420px;width:100%}
+.splash-logo-wrap{position:relative;width:112px;height:112px;display:grid;place-items:center}
+.splash-glow{position:absolute;inset:-28px;border-radius:50%;background:radial-gradient(circle,rgba(185,194,203,.22) 0%,transparent 65%);filter:blur(10px);animation:splashPulse 2.2s ease-in-out infinite}
+.splash-ring{position:absolute;inset:-16px;border-radius:50%;border:2px solid rgba(185,194,203,.16);border-top-color:rgba(185,194,203,.9);animation:splashSpin 1.5s linear infinite}
+.splash-logo{width:90px;height:90px;border-radius:24px;object-fit:cover;box-shadow:0 20px 46px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.08);animation:splashFloat 2.6s ease-in-out infinite}
+.splash-title{font-size:30px;font-weight:600;letter-spacing:.6px;margin:0;background:linear-gradient(180deg,#ffffff 0%,#b9c2cb 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.splash-subtitle{font-size:13px;color:var(--muted);margin:0;letter-spacing:.4px}
+
+/* Interactive elements */
+.btn.save.save-expense{background:linear-gradient(135deg,#FF6B7A,#C93A4A);color:#FFF;border-color:#FF6B7A;box-shadow:0 8px 22px #FF6B7A33}
+.btn.save.save-transfer{background:linear-gradient(135deg,#10B981,#A8893F);color:#1A1608;border-color:#10B981;box-shadow:0 8px 22px #10B98133}
+.btn.save.save-income{background:linear-gradient(135deg,#10B981,#059669);color:#052E24;border-color:#10B981;box-shadow:0 8px 22px #10B98133}
+
+.fab{position:fixed;z-index:30;width:54px;height:54px;border-radius:50%;background:rgba(16,185,129,0.28)!important;background-color:rgba(16,185,129,0.28)!important;color:rgba(255,255,255,0.88)!important;border:1px solid rgba(255,255,255,0.30);font-size:28px;font-weight:700;display:grid;place-items:center;box-shadow:0 4px 16px rgba(0,0,0,0.20);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .15s;touch-action:none;cursor:grab}
+.fab-menu{position:fixed;right:16px;bottom:calc(140px + env(safe-area-inset-bottom));z-index:29;display:grid;gap:10px;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .15s,transform .15s}
+.fab-menu.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.fab-item{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+.fab-item button{width:44px;height:44px;border-radius:50%;border:1px solid #2A3441;background:linear-gradient(180deg,#1A2028,#1A2028);color:#F1F5F9;font-size:18px;display:grid;place-items:center;box-shadow:0 8px 20px #00000055}
+.fab-item span{background:#1A2028;border:1px solid #2A3441;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:500;color:#F1F5F9}
+</style>
+</head>
+<body style="background:#000000">
+<div id="splashScreen" role="status">
+  <div class="splash-inner">
+    <div class="splash-logo-wrap">
+      <div class="splash-glow" aria-hidden="true"></div>
+      <div class="splash-ring" aria-hidden="true"></div>
+      <img class="splash-logo" src="mymoney-icon.png" alt="MyMoney">
+    </div>
+    <h1 class="splash-title">MyMoney</h1>
+    <p class="splash-subtitle">กำลังโหลดข้อมูลการเงินของคุณ</p>
+  </div>
+</div>
+
+<div class="app">
+  <header class="top">
+    <div class="brand"><img class="brand-icon" src="mymoney-icon.png" alt="MyMoney logo"><div class="brand-copy"><p class="eyebrow">PERSONAL FINANCE</p><h1>MyMoney</h1></div></div>
+    <button class="btn secondary" id="headerBackup" title="สำรองข้อมูล">⇧ สำรอง</button>
+  </header>
+
+  <!-- หน้าหลัก Overview ปรับปรุงแก้ปัญหาข้อมูลอัดแน่น -->
+  <section class="page active" id="page-home">
+    <!-- 1. ยอดคงเหลือรวม -->
+    <section class="balance">
+      <small>ยอดคงเหลือรวมทุกบัญชี</small><div class="big" id="balance">฿0.00</div>
+      <div class="stats">
+        <div><small>รายรับเดือนนี้</small><strong class="inc" id="income">฿0.00</strong></div>
+        <div><small>รายจ่ายเดือนนี้</small><strong class="exp" id="expense">฿0.00</strong></div>
+      </div>
+    </section>
+
+    <!-- 2. เมนูลัดวางแผนการเงิน -->
+    <div class="section" style="margin-top:14px"><div><p class="eyebrow">MY FINANCIAL PLAN</p><h2>วางแผนการเงิน</h2></div><span class="pill" id="homePlanMonth"></span></div>
+    <div class="feature-grid">
+      <button class="feature-link" data-go="budget"><span class="feature-icon">▤</span><strong>งบประมาณ</strong><small id="homeBudgetPreview">ตั้งงบรายเดือน</small></button>
+      <button class="feature-link" data-go="bills"><span class="feature-icon">◷</span><strong>บิลประจำ</strong><small id="homeBillsPreview">ติดตามวันครบกำหนด</small></button>
+      <button class="feature-link" data-go="debts"><span class="feature-icon">↘</span><strong>ติดตามหนี้</strong><small id="homeDebtPreview">ดูยอดหนี้คงเหลือ</small></button>
+      <button class="feature-link" data-go="goals"><span class="feature-icon">◎</span><strong>เป้าหมายการออม</strong><small id="homeGoalsPreview">ตั้งเป้าหมายแรก</small></button>
+    </div>
+
+    <!-- 3. กราฟกระแสเงินรายวัน -->
+    <section class="card daily-chart-card">
+      <div class="daily-chart-header"><div><div class="daily-chart-eyebrow">DAILY OVERVIEW</div><h2 style="margin-top:5px">กระแสเงินรายวัน</h2><p class="daily-chart-subtitle">ดูรายรับหรือรายจ่ายแยกตามวันที่</p></div><span class="daily-chart-icon" aria-hidden="true">▥</span></div>
+      <div class="daily-chart-controls">
+        <div class="daily-chart-tabs" role="group" aria-label="ประเภทกราฟ">
+          <button type="button" class="daily-chart-tab active" data-chart-type="Expense">รายจ่าย</button>
+          <button type="button" class="daily-chart-tab" data-chart-type="Income">รายรับ</button>
+        </div>
+      </div>
+      <div class="daily-chart-range">
+        <label>ตั้งแต่วันที่<input type="date" id="dailyChartFrom" aria-label="วันที่เริ่มต้นกระแสเงิน"></label>
+        <label>ถึงวันที่<input type="date" id="dailyChartTo" aria-label="วันที่สิ้นสุดกระแสเงิน"></label>
+      </div>
+      <div class="daily-chart-presets" role="group" aria-label="ช่วงเวลาลัด">
+        <button type="button" class="daily-chart-preset" data-range="7">7 วันล่าสุด</button>
+        <button type="button" class="daily-chart-preset" data-range="30">30 วันล่าสุด</button>
+        <button type="button" class="daily-chart-preset" data-range="month">เดือนนี้</button>
+        <button type="button" class="daily-chart-preset" data-range="prev">เดือนก่อน</button>
+      </div>
+      <div class="daily-chart-total"><span id="dailyChartTotalLabel">รายจ่ายรวมเดือนนี้</span><strong id="dailyChartTotal">฿0.00</strong></div>
+      <div id="dailyChartBars" class="daily-chart-bars" aria-label="กราฟยอดเงินรายวัน"></div>
+      <div class="daily-chart-axis" id="dailyChartAxis" aria-hidden="true">
+        <span data-day="1">1</span><span data-day="7">7</span><span data-day="14">14</span><span data-day="21">21</span><span data-day="28">28</span>
+      </div>
+      <div id="dailyChartSelected" class="daily-chart-selected" aria-live="polite">แตะแท่งกราฟเพื่อดูรายการและยอดเงินของวันนั้น</div>
+    </section>
+
+    <!-- 4. สุขภาพการเงิน -->
+    <section class="card stack forecast-card" aria-live="polite">
+      <div class="section" style="margin:0 0 4px"><div><p class="eyebrow">FINANCIAL HEALTH</p><h2>สุขภาพการเงินเดือนนี้</h2></div><span class="pill" id="forecastMonth"></span></div>
+      <div class="feature-stats">
+        <div class="feature-stat"><span>มูลค่าสุทธิเงินสดหักหนี้</span><strong id="netWorthValue">฿0.00</strong></div>
+        <div class="feature-stat"><span>คาดการณ์เงินปลายเดือน</span><strong id="forecastBalance">฿0.00</strong></div>
+      </div>
+      <p class="small" id="forecastNote">ประมาณการจากอัตรารายรับและรายจ่ายของเดือนปัจจุบัน ไม่ใช่ยอดรับประกัน</p>
+    </section>
+
+    <!-- 5. รวมสรุปรายละเอียดเพิ่มเติม (Collapsible Drawer เพื่อลดความอัดแน่น) -->
+    <div class="card settings-collapse-card" style="margin-top:12px">
+      <button class="settings-collapse-toggle" type="button" id="homeSummaryToggle" aria-expanded="false" aria-controls="homeSummaryPanel">
+        <span class="settings-collapse-symbol" aria-hidden="true">📂</span>
+        <span class="settings-collapse-copy"><strong>รายละเอียดงบ บิล และบัญชี</strong><small>แตะเพื่อดูสรุปงบประมาณ บิลที่ต้องจ่าย และยอดแยกตามบัญชี</small></span>
+        <span class="settings-collapse-arrow" aria-hidden="true">⌄</span>
+      </button>
+      <div class="settings-collapse-panel stack" id="homeSummaryPanel" hidden>
+        <div class="section" style="margin:8px 0 4px"><h3>งบประมาณเดือนนี้</h3></div>
+        <div class="card" id="homeBudgetList" style="border:0;background:transparent;padding:0"></div>
+        
+        <div class="section" style="margin:12px 0 4px"><h3>บิลที่ต้องจ่าย</h3></div>
+        <div class="card" id="homeBillsList" style="border:0;background:transparent;padding:0"></div>
+        
+        <div class="section" style="margin:12px 0 4px"><h3>เป้าหมายการออม</h3></div>
+        <div class="card" id="homeGoalsList" style="border:0;background:transparent;padding:0"></div>
+        
+        <div class="section" style="margin:12px 0 4px"><h3>เงินแยกตามบัญชี</h3></div>
+        <div class="card" id="homeAccounts" style="border:0;background:transparent;padding:0"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- หน้าประวัติ -->
+  <section class="page" id="page-history">
+    <div class="section" style="margin-top:5px"><div><p class="eyebrow">TRANSACTIONS</p><h2>ประวัติรายการ</h2></div><button class="btn primary" data-go="record">＋ เพิ่ม</button></div>
+    <section class="card history-filter-card">
+      <button class="history-filter-toggle" type="button" id="historyFilterToggle" aria-expanded="false" aria-controls="historyFilterPanel">
+        <span class="history-filter-symbol">☷</span>
+        <span class="history-filter-copy"><strong>ตัวกรองและค้นหา</strong><small>ค้นหาชื่อรายการ ประเภท และช่วงวันที่</small></span>
+        <span class="history-filter-arrow" aria-hidden="true">⌄</span>
+      </button>
+      <div id="historyFilterPanel" class="stack history-filter-panel" hidden>
+        <div><label for="search">ค้นหาชื่อรายการ / หมายเหตุ</label><input id="search" placeholder="พิมพ์คำค้นหา"></div>
+        <div class="grid">
+          <div><label for="filter">ประเภท</label><select id="filter"><option value="All">ทั้งหมด</option><option value="Income">รายรับ</option><option value="Expense">รายจ่าย</option><option value="Transfer">โอนเงิน</option></select></div>
+          <div><label for="historyMonth">เดือน</label><input type="month" id="historyMonth"></div>
+        </div>
+        <div class="grid">
+          <div><label for="historyFrom">ตั้งแต่วันที่</label><input type="date" id="historyFrom"></div>
+          <div><label for="historyTo">ถึงวันที่</label><input type="date" id="historyTo"></div>
+        </div>
+        <button class="btn secondary" id="clearFilters">ล้างตัวกรอง</button>
+      </div>
+    </section>
+    <div class="section history-list-heading"><h3 id="historyCount">รายการทั้งหมด</h3><div class="history-limit-control"><label for="historyLimit">แสดง</label><select id="historyLimit"><option value="5" selected>5 รายการ</option><option value="10">10 รายการ</option><option value="20">20 รายการ</option><option value="all">ทั้งหมด</option></select></div></div>
+    <div class="list" id="historyList"></div>
+  </section>
+
+  <!-- หน้าเพิ่มรายการ -->
+  <section class="page" id="page-record">
+    <div class="section" style="margin-top:5px"><div><p class="eyebrow">QUICK ADD</p><h2 id="formHeading">บันทึกรายการ</h2></div></div>
+    <div class="actions"><button class="active" data-type="Expense">− รายจ่าย</button><button data-type="Income">＋ รายรับ</button><button data-type="Transfer">โอนเงิน</button></div>
+    <section class="card">
+      <form id="form" class="stack">
+        <div><label for="amount">จำนวนเงิน (บาท) *</label><input id="amount" class="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
+        <div class="grid" id="categoryRow"><div><label for="category">หมวดหมู่</label><select id="category"></select></div><div><label for="account">บัญชี</label><select id="account"></select></div></div>
+        <div id="transferRow" hidden><div class="grid"><div><label for="transferFrom">โอนจากบัญชี</label><select id="transferFrom"></select></div><div><label for="transferTo">โอนไปบัญชี</label><select id="transferTo"></select></div></div></div>
+        <div><label for="title">ชื่อรายการ *</label><input id="title" maxlength="80" placeholder="เช่น ข้าวกลางวัน" required></div>
+        <div class="grid" id="dateNoteGrid">
+          <div><label for="date">วันที่ *</label><input id="date" type="date" required></div>
+          <div><label for="note">หมายเหตุ</label><input id="note" maxlength="160" placeholder="ไม่บังคับ"></div>
+        </div>
+        <button class="btn primary save" id="save" type="submit">บันทึกรายจ่าย</button>
+        <p class="message" id="message"></p>
+      </form>
+    </section>
+  </section>
+
+  <!-- หน้ารายงาน -->
+  <section class="page" id="page-reports">
+    <div class="section" style="margin-top:5px"><div><p class="eyebrow">REPORTS</p><h2>รายงานการเงิน</h2></div></div>
+    <div class="card stack"><div><label for="reportMonth">เลือกเดือนที่ต้องการดู</label><input id="reportMonth" type="month"></div>
+      <div class="stats" style="border-top:0;padding-top:5px"><div><span class="small">รายรับ</span><strong class="inc" id="reportIncome">฿0.00</strong></div><div><span class="small">รายจ่าย</span><strong class="exp" id="reportExpense">฿0.00</strong></div></div>
+      <div class="summaryline"><span>เงินสุทธิของเดือน</span><strong id="reportNet">฿0.00</strong></div>
+    </div>
+  </section>
+
+  <!-- หน้าตั้งค่า -->
+  <section class="page" id="page-settings">
+    <div class="section" style="margin-top:5px"><div><p class="eyebrow">SETTINGS</p><h2>ตั้งค่า</h2></div></div>
+    <div class="card"><p class="small">ข้อมูลบันทึกในอุปกรณ์นี้เท่านั้น</p></div>
+  </section>
+  
+  <footer>MyMoney · Personal Finance · Responsive App</footer>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-go="home"><span class="symbol">⌂</span>ภาพรวม</button>
+  <button class="nav-btn" data-go="history"><span class="symbol">☷</span>ประวัติ</button>
+  <button class="nav-btn" data-go="record"><span class="symbol">＋</span>บันทึก</button>
+  <button class="nav-btn" data-go="reports"><span class="symbol">▥</span>รายงาน</button>
+  <button class="nav-btn" data-go="settings"><span class="symbol">⚙</span>ตั้งค่า</button>
+</nav>
+
+<script>
+setTimeout(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const TX_KEY='mymoney_transactions_v1', ACC_KEY='mymoney_accounts_v1', CAT_KEY='mymoney_categories_v1';
+const DEFAULT_ACCOUNTS=[{name:'เงินสด',opening:0},{name:'บัญชีธนาคาร',opening:0}];
+const DEFAULT_CATS={Expense:['อาหาร','เดินทาง','ที่พัก','บิล/ค่าน้ำไฟ','ช้อปปิ้ง','อื่น ๆ'],Income:['เงินเดือน','รายได้เสริม','อื่น ๆ']};
+
+let type='Expense', editingId=null, dailyChartType='Expense';
+let tx=JSON.parse(localStorage.getItem(TX_KEY)||"[]");
+let accounts=JSON.parse(localStorage.getItem(ACC_KEY)||JSON.stringify(DEFAULT_ACCOUNTS));
+let cats=JSON.parse(localStorage.getItem(CAT_KEY)||JSON.stringify(DEFAULT_CATS));
+
+function saveAll(){
+  localStorage.setItem(TX_KEY,JSON.stringify(tx));
+  localStorage.setItem(ACC_KEY,JSON.stringify(accounts));
+  localStorage.setItem(CAT_KEY,JSON.stringify(cats));
+}
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function money(n){return new Intl.NumberFormat('th-TH',{style:'currency',currency:'THB'}).format(Number(n)||0)}
+function localDate(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function currentMonth(){return localDate().slice(0,7)}
+
+function navigate(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.go===page));
+  if(page==='home')renderHome();
+  if(page==='history')renderHistory();
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.go)));
+
+function renderHome(){
+  let inc=0,exp=0;
+  tx.forEach(t=>{
+    if(t.type==='Income') inc+=Number(t.amount)||0;
+    if(t.type==='Expense') exp+=Number(t.amount)||0;
+  });
+  $('balance').textContent=money(inc-exp);
+  $('income').textContent=money(inc);
+  $('expense').textContent=money(exp);
+}
+
+function renderHistory(){
+  $('historyList').innerHTML = tx.length ? tx.map(t=>`
+    <div class="item">
+      <div class="ico">${t.type==='Income'?'＋':'−'}</div>
+      <div class="details"><div class="title">${esc(t.title)}</div><div class="meta">${t.date}</div></div>
+      <div class="right" style="color:${t.type==='Income'?'var(--green)':'var(--red)'}">${money(t.amount)}</div>
+    </div>
+  `).join('') : '<div class="empty">ยังไม่มีรายการ</div>';
+}
+
+// ควบคุมกล่องพับซ่อนสรุปหน้าแรก
+const homeSummaryToggle = $('homeSummaryToggle');
+const homeSummaryPanel = $('homeSummaryPanel');
+if (homeSummaryToggle && homeSummaryPanel) {
+  homeSummaryToggle.addEventListener('click', () => {
+    const expanded = homeSummaryToggle.getAttribute('aria-expanded') === 'true';
+    homeSummaryToggle.setAttribute('aria-expanded', String(!expanded));
+    homeSummaryPanel.hidden = expanded;
+  });
+}
+
+// ควบคุมการแสดงสแปลชสกรีน
+const splash=document.getElementById('splashScreen');
+if(splash){
+  setTimeout(()=>{
+    splash.classList.add('splash-hide');
+    setTimeout(()=>splash.remove(),650);
+  },800);
+}
+
+renderHome();
+},0);
+</script>
+</body>
+</html>
