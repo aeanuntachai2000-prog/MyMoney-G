@@ -47,7 +47,7 @@ html{background:#101318!important;height:100%;overscroll-behavior:none}body{marg
 button,input,select{font:inherit}
 button{cursor:pointer}
 .app{max-width:680px;margin:auto;padding:14px 12px calc(84px + env(safe-area-inset-bottom));overscroll-behavior:contain}
-.top{display:flex;justify-content:space-between;align-items:center;margin:2px 3px 12px}.brand{display:flex;align-items:center;gap:16px;min-width:0}.brand-icon{width:48px;height:48px;border-radius:14px;object-fit:cover;flex-shrink:0;border:1px solid #10B981;box-shadow:0 0 18px #10B98133}.brand-copy{min-width:0}
+.top{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;margin:0 -12px 12px;padding:10px 12px;background:rgba(16,19,24,.96);backdrop-filter:saturate(120%) blur(6px);-webkit-backdrop-filter:saturate(120%) blur(6px);border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:16px;min-width:0}.brand-icon{width:48px;height:48px;border-radius:14px;object-fit:cover;flex-shrink:0;border:1px solid #10B981;box-shadow:0 0 18px #10B98133}.brand-copy{min-width:0}
 .eyebrow{font-size:9.5px;letter-spacing:1.2px;color:var(--muted);font-weight:600;margin:0 0 3px}
 h1{font-size:21px;margin:0;font-weight:600}h2{font-size:16px;margin:0;font-weight:600}h3{font-size:14px;margin:0;font-weight:600}
 .small{font-size:11px;color:var(--muted)}
@@ -188,11 +188,20 @@ footer{text-align:center;color:#94A3B8;font-size:11px;padding:24px 0 0}
 .report-change.good{color:var(--green)}.report-change.bad{color:var(--red)}
 .report-empty{font-size:12px;color:var(--muted);text-align:center;padding:20px 8px}
 @media(max-width:380px){.report-donut-layout{grid-template-columns:1fr}.report-donut{width:145px}.report-legend{gap:8px}.trend-month{grid-template-columns:43px minmax(0,1fr)}.trend-value{min-width:57px;font-size:9px}}
+/* tx record form layout (Income/Expense/Transfer) — scoped, preserve theme */
+.tx-form .tx-grid.tx-grid-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:end}
+.tx-form .tx-grid>div,.tx-form #dateNoteGrid{min-width:0}
+.tx-form #dateNoteGrid label{display:block}
+.tx-form input,.tx-form select{max-width:100%;box-sizing:border-box}
+/* date + doc number row: equal 50:50, aligned edges (scoped; do not affect other rows) */
+.tx-form #txDateDocRow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:end}
+.tx-form #txDateDocRow>div{min-width:0;width:100%;box-sizing:border-box}
+.tx-form #txDateDocRow input{display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;margin:0;padding:10px 9px;height:44px;min-height:44px;font:inherit;font-size:13px;line-height:1.2;border:1px solid #2A3441;border-radius:10px;background:#141922;color:#F1F5F9;-webkit-appearance:none;appearance:none;overflow:hidden;vertical-align:middle}
+@media(max-width:360px){
+  .tx-form .tx-grid.tx-grid-2:not(#txDateDocRow){grid-template-columns:minmax(0,1fr)}
+}
 @media(max-width:480px){
-  /* On narrow phone screens, stack date and note to prevent iOS Safari overflow */
-  .grid#dateNoteGrid{grid-template-columns:minmax(0,1fr);gap:10px}
-  #dateNoteGrid>div{width:100%;min-width:0;max-width:100%}
-  #dateNoteGrid input{width:100%;min-width:0;max-width:100%;box-sizing:border-box;font-size:16px;padding:0 6px;height:44px;min-height:44px;line-height:44px;-webkit-appearance:none;appearance:none;overflow:hidden;white-space:nowrap;text-align:center}
+  .tx-form input,.tx-form select{font-size:16px;min-height:44px}
 }
 @media(max-width:420px){
   .app{padding-left:10px;padding-right:10px}
@@ -298,7 +307,6 @@ footer{text-align:center;color:#94A3B8;font-size:11px;padding:24px 0 0}
 /* Prevent iOS native date/month controls from forcing a wider field. */
 #page-history input[type="date"],
 #page-history input[type="month"],
-#page-record #date,
 #page-reports #reportMonth {
   -webkit-appearance: none;
   appearance: none;
@@ -311,7 +319,6 @@ footer{text-align:center;color:#94A3B8;font-size:11px;padding:24px 0 0}
   line-height: 1.4;
 }
 /* Keep the other pages responsive without squeezing their fields. */
-#page-record #date,
 #page-reports #reportMonth {
   box-sizing: border-box;
   width: 100%;
@@ -483,15 +490,13 @@ body.record-page .app{padding-top:12px;padding-bottom:60px}
 #page-record .grid{gap:6px}
 #page-record .save{padding:10px;margin-top:2px;font-size:14px}
 #page-record .message{min-height:12px;font-size:11px;margin-top:2px}
-#page-record #dateNoteGrid{gap:6px}
-@media(max-width:480px){
-  #page-record #dateNoteGrid{gap:6px}
-}
+#page-record #dateNoteGrid{display:block;min-width:0}
+#page-record #dateNoteGrid input{width:100%;box-sizing:border-box}
 
 
 /* ===== MyMoney Compact Plus: tighter spacing, clearer hierarchy ===== */
 .app{padding:14px 12px calc(88px + env(safe-area-inset-bottom))}
-.top{margin:2px 2px 14px}
+.top{margin:0 -12px 14px;padding:10px 12px}
 .brand{gap:16px}
 .brand-icon{width:42px;height:42px;border-radius:12px}
 h1{font-size:23px}
@@ -742,6 +747,74 @@ body.record-page .brand-copy h1{font-size:20px}
 .dd-panel .dd-empty{padding:12px;text-align:center;color:#64748B;font-size:13px}
 .dd-search{display:block;width:100%;background:#141922;border:1px solid #2A3441;border-radius:8px;padding:8px 10px;color:#F1F5F9;font-size:14px;margin-bottom:6px;box-sizing:border-box}
 .dd-search:focus{outline:2px solid #10B981;outline-offset:1px}
+
+/* Journal list (renderJournal -> #journalListMount) UI only */
+#journalListMount .jrnl-card{background:transparent;border:none;border-radius:0;box-shadow:none;padding:0}
+#journalListMount .jrnl-summary{margin:2px 0 10px;color:var(--muted,#6b7280)}
+#journalListMount .jrnl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:transparent}
+#journalListMount .jrnl-table{width:100%;table-layout:fixed;min-width:820px;border-collapse:separate;border-spacing:0;font-size:13px;line-height:1.4}
+#journalListMount .jrnl-table th,#journalListMount .jrnl-table td{padding:10px 12px;vertical-align:middle;border-bottom:1px solid rgba(148,163,184,.22)}
+#journalListMount .jrnl-table thead th{position:sticky;top:0;z-index:1;background:rgba(26,32,40,.98);color:#f8fafc;font-weight:600;font-size:12px;letter-spacing:.01em;border-bottom:2px solid rgba(148,163,184,.45);white-space:nowrap}
+/* group by date: alternate background per date set (not per row) — dark neutral tones harmonized with app theme (--bg #101318, --surface/panel #1A2028, --panel2 #222A35, --line #2A3441). NOTE: inspected file defines a dark-only theme (color-scheme:dark, no light [data-theme]/prefers-color-scheme:light rules); defensive light/dark selectors kept harmless. */
+#journalListMount .jrnl-table.jrnl-grouped{
+  --jrnl-ga:rgba(34,42,53,.62);        /* muted slate-surface tint, near --panel2, calm */
+  --jrnl-gb:rgba(22,27,34,.72); /* neutral */     /* neutral alternating tint */
+  --jrnl-gdiv:rgba(42,52,65,.95);      /* day divider, clear but not harsh, aligns to --line */
+  --jrnl-hover:rgba(148,163,184,.09);  /* gentle green hover, restrained */
+  background-clip:padding-box;
+}
+@media (prefers-color-scheme:dark){
+  #journalListMount .jrnl-table.jrnl-grouped{--jrnl-ga:rgba(34,42,53,.62);--jrnl-gb:rgba(22,27,34,.72); /* neutral */--jrnl-gdiv:rgba(42,52,65,.95);--jrnl-hover:rgba(148,163,184,.09);}
+}
+html[data-theme="dark"] #journalListMount .jrnl-table.jrnl-grouped,html.dark #journalListMount .jrnl-table.jrnl-grouped,body.dark #journalListMount .jrnl-table.jrnl-grouped,[data-theme="dark"] #journalListMount .jrnl-table.jrnl-grouped{
+  --jrnl-ga:rgba(34,42,53,.62);--jrnl-gb:rgba(22,27,34,.72); /* neutral */--jrnl-gdiv:rgba(42,52,65,.95);--jrnl-hover:rgba(148,163,184,.09);
+}
+/* defensive: if a light theme is ever added, keep muted green grouping legible */
+@media (prefers-color-scheme:light){
+  #journalListMount .jrnl-table.jrnl-grouped{--jrnl-ga:rgba(34,42,53,.62);--jrnl-gb:rgba(22,27,34,.72); /* neutral */--jrnl-gdiv:rgba(42,52,65,.22);--jrnl-hover:rgba(148,163,184,.09);}
+}
+html[data-theme="light"] #journalListMount .jrnl-table.jrnl-grouped,html.light #journalListMount .jrnl-table.jrnl-grouped,body.light #journalListMount .jrnl-table.jrnl-grouped,[data-theme="light"] #journalListMount .jrnl-table.jrnl-grouped{
+  --jrnl-ga:rgba(34,42,53,.62);--jrnl-gb:rgba(22,27,34,.72); /* neutral */--jrnl-gdiv:rgba(42,52,65,.22);--jrnl-hover:rgba(148,163,184,.09);
+}
+#journalListMount .jrnl-table.jrnl-grouped tbody tr.jrnl-g0,#journalListMount .jrnl-table.jrnl-grouped tbody tr.jrnl-g0>td{background-color:var(--jrnl-ga)!important}
+#journalListMount .jrnl-table.jrnl-grouped tbody tr.jrnl-g1,#journalListMount .jrnl-table.jrnl-grouped tbody tr.jrnl-g1>td{background-color:var(--jrnl-gb)!important}
+#journalListMount .jrnl-table.jrnl-grouped tbody tr.jrnl-gstart>td{border-top:1.5px solid var(--jrnl-gdiv)!important}
+#journalListMount .jrnl-table.jrnl-grouped tbody tr:hover,#journalListMount .jrnl-table.jrnl-grouped tbody tr:hover>td{background-color:var(--jrnl-hover)!important}
+#journalListMount .jrnl-table.jrnl-grouped .jrnl-date{vertical-align:top;padding-top:12px;font-weight:600;white-space:nowrap}
+@media (max-width:640px){#journalListMount .jrnl-table{min-width:760px;font-size:12px}#journalListMount .jrnl-table th,#journalListMount .jrnl-table td{padding:8px 10px}#journalListMount .jrnl-col-acct{width:12em}}
+
+#page-journal .coa-card,#page-gl .coa-card{background:transparent!important;border:none!important;box-shadow:none!important;border-radius:0!important;padding:0!important}
+#page-journal .jrnl-card{background:transparent!important;border:none!important;box-shadow:none!important}
+
+/* jrnl/gl no-card (TB-like) */
+#page-journal .mig-table,#page-gl .mig-table{width:100%;border-collapse:collapse;background:transparent}
+#page-journal .mig-table th,#page-journal .mig-table td,#page-gl .mig-table th,#page-gl .mig-table td{border:none;border-bottom:1px solid var(--border);padding:8px 6px;font-size:13px;vertical-align:top;background:transparent}
+#page-journal .mig-table th,#page-gl .mig-table th{font-weight:700;white-space:nowrap;color:var(--erp-text,#E6EDF3);background:transparent}
+#page-journal .mig-table tbody tr:last-child td,#page-gl .mig-table tbody tr:last-child td{border-bottom:none}
+#page-journal .jrnl-scroll,#page-gl .coa-card [style*="overflow"]{background:transparent}
+body.dark-mode #page-journal .mig-table th,body.dark-mode #page-journal .mig-table td,body.dark-mode #page-gl .mig-table th,body.dark-mode #page-gl .mig-table td{background:transparent}
+
+#page-journal #journalSearchBar,#page-journal .jrnl-search.card,#page-journal .jrnl-filter-bar{background:transparent!important;border:none!important;box-shadow:none!important;border-radius:0!important}
+#page-gl #glFilterBar.card{background:transparent!important;border:none!important;box-shadow:none!important;border-radius:0!important}
+
+/* GL mobile responsive table (UI only; no data/logic/column/order change) */
+#page-gl .gl-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+#page-gl .gl-ledger-table{width:max-content;min-width:100%;table-layout:auto;border-collapse:collapse}
+#page-gl .gl-ledger-table th,#page-gl .gl-ledger-table td{white-space:nowrap;word-break:keep-all;overflow-wrap:normal}
+#page-gl .gl-ledger-table th:nth-child(3),#page-gl .gl-ledger-table td:nth-child(3){min-width:180px}
+#page-gl .gl-ledger-table th:nth-child(1),#page-gl .gl-ledger-table td:nth-child(1),
+#page-gl .gl-ledger-table th:nth-child(2),#page-gl .gl-ledger-table td:nth-child(2),
+#page-gl .gl-ledger-table th:nth-child(4),#page-gl .gl-ledger-table td:nth-child(4),
+#page-gl .gl-ledger-table th:nth-child(5),#page-gl .gl-ledger-table td:nth-child(5),
+#page-gl .gl-ledger-table th:nth-child(6),#page-gl .gl-ledger-table td:nth-child(6){width:1%}
+@media (max-width:768px){
+  #page-gl .gl-ledger-table th,#page-gl .gl-ledger-table td{padding:8px 10px}
+}
+
+/* Journal neutral text (scoped) */
+#journalListMount .jrnl-table thead th{color:#F1F5F9;font-weight:600}
+#journalListMount .jrnl-table tbody td{color:#CBD5E1}
+#journalListMount .jrnl-table tbody td .jrnl-debit,#journalListMount .jrnl-table tbody td .jrnl-credit,#journalListMount .jrnl-table tbody td.jrnl-debit,#journalListMount .jrnl-table tbody td.jrnl-credit{color:#F1F5F9;font-weight:600}
 </style>
 
 <style id="dashboardErpCss">
@@ -908,20 +981,30 @@ body{padding-bottom:0 !important}
         <p class="small">ประมวลผลรูปในเบราว์เซอร์ รูปสลิปไม่ถูกส่งไปยังเซิร์ฟเวอร์ OCR โดยโค้ดนี้ แต่ระบบต้องดาวน์โหลดตัวอ่านและชุดภาษาเมื่อใช้ครั้งแรก ยอดเงินและวันที่อาจอ่านผิด กรุณาตรวจสอบก่อนบันทึก</p>
       </div>
     </section>
-    <div class="actions"><button class="active" data-type="Expense">− รายจ่าย</button><button data-type="Income">＋ รายรับ</button><button data-type="Transfer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M16 3l4 4-4 4"/><path d="M20 7H4"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h16"/></svg> โอนเงิน</button></div>
+    <div class="actions"><button class="active" data-type="Expense">− รายจ่าย</button><button data-type="Income">＋ รายรับ</button><button data-type="Transfer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M16 3l4 4-4 4"/><path d="M20 7H4"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h16"/></svg> โอนเงิน</button><button type="button" id="recordModeManual" data-mode="Manual">✎ บันทึกแบบแมนนวล</button></div>
     <section class="card">
-      <form id="form" class="stack">
+      <form id="form" class="stack tx-form">
+        <div class="tx-grid tx-grid-2" id="txDateDocRow"><div><label for="date">วันที่ *</label><input id="date" type="date" required></div><div><label for="docNo">เลขที่เอกสาร</label><input id="docNo" type="text" maxlength="80" placeholder="ไม่บังคับ (กรอกเอง)"></div></div>
+        <div><label for="title">ชื่อรายการ / รายละเอียด *</label><input id="title" maxlength="80" placeholder="เช่น ข้าวกลางวัน" required></div>
+        <div class="tx-grid tx-grid-2" id="categoryRow"><div><label for="category">หมวดหมู่</label><select id="category"></select></div><div><label for="account">บัญชี</label><select id="account"></select></div></div>
+        <div id="transferRow" hidden><div class="tx-grid tx-grid-2" id="transferAccountsRow"><div><label for="transferFrom">บัญชีต้นทาง</label><select id="transferFrom"></select></div><div><label for="transferTo">บัญชีปลายทาง</label><select id="transferTo"></select></div></div></div>
         <div><label for="amount">จำนวนเงิน (บาท) *</label><input id="amount" class="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
-        <div class="grid" id="categoryRow"><div><label for="category">หมวดหมู่</label><select id="category"></select></div><div><label for="account">บัญชี</label><select id="account"></select></div></div>
-        <div id="transferRow" hidden><div class="grid"><div><label for="transferFrom">โอนจากบัญชี</label><select id="transferFrom"></select></div><div><label for="transferTo">โอนไปบัญชี</label><select id="transferTo"></select></div></div></div>
-        <div><label for="title">ชื่อรายการ *</label><input id="title" maxlength="80" placeholder="เช่น ข้าวกลางวัน" required></div>
-        <div class="grid" id="dateNoteGrid">
-          <div><label for="date">วันที่ *</label><input id="date" type="date" required></div>
-          <div><label for="note">หมายเหตุ</label><input id="note" maxlength="160" placeholder="ไม่บังคับ"></div>
-        </div>
+        <div id="dateNoteGrid"><label for="note">หมายเหตุ</label><input id="note" maxlength="160" placeholder="ไม่บังคับ"></div>
         <button class="btn primary save" id="save" type="submit">บันทึกรายจ่าย</button><button class="btn secondary" id="cancelEdit" type="button" hidden>ยกเลิกการแก้ไข</button><p class="message" id="message" role="status"></p>
       </form>
     </section>
+    <div id="manualJournalSection" class="card stack" style="margin:12px 0 0;display:none">
+  <h3>บันทึกบัญชี (Manual Journal)</h3>
+  <p class="small" style="margin:0 0 8px;color:var(--muted,#94A3B8)">บันทึกเดบิต/เครดิตแบบแมนนวล แยกจากรายรับ รายจ่าย และโอนเงิน</p>
+  <label for="mjDate">วันที่</label><input id="mjDate" type="date">
+  <label for="mjDocNo">เลขที่เอกสาร</label><input id="mjDocNo" placeholder="เลขที่เอกสาร">
+  <label for="mjDescription">คำอธิบายรายการ</label><input id="mjDescription" placeholder="คำอธิบายรายการ">
+  <div style="overflow:auto"><table class="mig-table"><thead><tr><th>บัญชี</th><th>Debit</th><th>Credit</th><th>คำอธิบาย</th><th></th></tr></thead><tbody id="mjRows"></tbody></table></div>
+  <div class="coa-toolbar"><div class="coa-card"><strong>Total Debit</strong><div id="mjDebitTotal">0</div></div><div class="coa-card"><strong>Total Credit</strong><div id="mjCreditTotal">0</div></div><div class="coa-card"><strong>Difference</strong><div id="mjDifference">0</div></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn secondary" id="mjAddRowBtn">+ เพิ่มแถว</button><button class="btn primary" id="mjSaveDraftBtn">บันทึกเป็น Draft</button></div>
+  <p class="message" id="mjMessage"></p>
+  <div class="coa-card"><strong>Manual Drafts</strong><div id="mjDraftList"></div></div>
+    </div>
   </section>
 
   <section class="page" id="page-reports">
@@ -981,18 +1064,16 @@ body{padding-bottom:0 !important}
 
   <section class="page" id="page-journal">
     <div class="section" style="margin-top:5px;align-items:flex-start"><div><p class="eyebrow">JOURNAL</p><h2>สมุดรายวัน</h2></div></div>
-    <div class="card stack" style="margin-bottom:12px">
-  <h3>บันทึกบัญชี (Manual Journal)</h3>
-  <label for="mjDate">วันที่</label><input id="mjDate" type="date">
-  <label for="mjDocNo">เลขที่เอกสาร</label><input id="mjDocNo" placeholder="เลขที่เอกสาร">
-  <label for="mjDescription">คำอธิบายรายการ</label><input id="mjDescription" placeholder="คำอธิบายรายการ">
-  <div style="overflow:auto"><table class="mig-table"><thead><tr><th>บัญชี</th><th>Debit</th><th>Credit</th><th>คำอธิบาย</th><th></th></tr></thead><tbody id="mjRows"></tbody></table></div>
-  <div class="coa-toolbar"><div class="coa-card"><strong>Total Debit</strong><div id="mjDebitTotal">0</div></div><div class="coa-card"><strong>Total Credit</strong><div id="mjCreditTotal">0</div></div><div class="coa-card"><strong>Difference</strong><div id="mjDifference">0</div></div></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn secondary" id="mjAddRowBtn">+ เพิ่มแถว</button><button class="btn primary" id="mjSaveDraftBtn">บันทึกเป็น Draft</button></div>
-  <p class="message" id="mjMessage"></p>
-  <div class="coa-card"><strong>Manual Drafts</strong><div id="mjDraftList"></div></div>
-</div>
-<div class="settings-collapse-panel" id="accountingMigrationPanel"><div class="stack"><h3>Accounting Migration</h3><button class="btn secondary" id="startDryRunBtn">Start Dry-run</button><button class="btn secondary" id="refreshMigrationDraftsBtn">Refresh Migration Drafts</button><button class="btn secondary" id="checkMigrationIntegrityBtn">Check Migration Integrity</button><div class="card stack" style="margin-top:8px"><h3>Journal Actions</h3><label for="postTxId">Transaction ID</label><input id="postTxId" placeholder="Transaction ID"><label for="postRevision">Revision</label><input id="postRevision" type="number" value="0"><button class="btn secondary" id="postJournalBtn">Post Journal</button><label for="reverseTxId">Reverse Transaction ID</label><input id="reverseTxId" placeholder="Transaction ID"><label for="reverseRevision">Revision</label><input id="reverseRevision" type="number" value="0"><button class="btn secondary" id="reverseJournalBtn">Reverse Journal (Transaction)</button><label for="reverseEntryId">Reverse Entry ID</label><input id="reverseEntryId" placeholder="Journal Entry ID"><button class="btn secondary" id="reverseEntryBtn">Reverse Journal Entry</button><p class="message" id="journalActionMessage"></p></div><div class="coa-toolbar"><div class="coa-card"><strong>Total Transactions</strong><div id="migTotal">0</div></div><div class="coa-card"><strong>Ready</strong><div id="migReady">0</div></div><div class="coa-card"><strong>Failed</strong><div id="migFailed">0</div></div><div class="coa-card"><strong>Needs Review</strong><div id="migNeeds">0</div></div><div class="coa-card"><strong>Already Journalized</strong><div id="migAlready">0</div></div></div><div class="coa-toolbar"><div class="coa-card"><strong>Total Debit</strong><div id="migDebit">0</div></div><div class="coa-card"><strong>Total Credit</strong><div id="migCredit">0</div></div><div class="coa-card"><strong>Difference</strong><div id="migDiff">0</div></div></div><table class="mig-table"><thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Debit</th><th>Credit</th><th>Status</th><th>Validation Message</th></tr></thead><tbody id="migTableBody"></tbody></table><div class="coa-card"><strong>Preview Journal</strong><div id="migPreview"></div></div><div class="coa-card"><strong>Migration Drafts</strong><div id="migDraftList"></div></div>
+    <div id="journalSearchBar" class="jrnl-search card" style="margin:0 0 10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;align-items:stretch">
+      <div class="jrnl-search-row" style="display:grid;grid-template-columns:minmax(140px,1fr) minmax(160px,1fr);gap:8px;align-items:end">
+        <div style="min-width:0;position:relative"><label for="journalSearchQ" class="small" style="display:block;margin-bottom:4px">ค้นหา (เลขที่/รายละเอียด)</label><input id="journalSearchQ" type="text" placeholder="เลขที่รายการหรือรายละเอียด" style="width:100%;padding-right:30px;box-sizing:border-box"><button type="button" id="journalSearchClearQ" title="ล้างคำค้นหา" aria-label="ล้างคำค้นหา" style="display:none;position:absolute;right:6px;bottom:7px;border:0;background:transparent;color:var(--muted,#94A3B8);font-size:16px;line-height:1;cursor:pointer;padding:2px 6px">×</button></div>
+        <div style="min-width:0"><label for="journalAccountFilter" class="small" style="display:block;margin-bottom:4px">เลือกบัญชี</label><select id="journalAccountFilter" style="width:100%;box-sizing:border-box"><option value="">ทุกบัญชี</option></select></div>
+      </div>
+      <div id="journalDateRow" class="jrnl-date-row" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:end"><div style="min-width:0"><label for="journalDateFrom" class="small" style="display:block;margin-bottom:4px">ตั้งแต่วันที่</label><input id="journalDateFrom" type="date" style="width:100%;min-width:0;box-sizing:border-box"></div><div style="min-width:0"><label for="journalDateTo" class="small" style="display:block;margin-bottom:4px">ถึงวันที่</label><input id="journalDateTo" type="date" style="width:100%;min-width:0;box-sizing:border-box"></div></div>
+      <div class="jrnl-search-actions" style="display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap"><button type="button" id="journalFilterSearch" class="btn" style="padding:8px 10px;min-height:38px">ค้นหา</button><button type="button" id="journalFilterClear" class="btn secondary" style="padding:8px 10px;min-height:38px">ล้างตัวกรอง</button></div>
+    </div>
+    <div id="journalListMount"></div>
+<div class="settings-collapse-panel" id="accountingMigrationPanel" style="display:none" hidden aria-hidden="true"><div class="stack"><h3>Accounting Migration</h3><button class="btn secondary" id="startDryRunBtn">Start Dry-run</button><button class="btn secondary" id="refreshMigrationDraftsBtn">Refresh Migration Drafts</button><button class="btn secondary" id="checkMigrationIntegrityBtn">Check Migration Integrity</button><div class="card stack" style="margin-top:8px"><h3>Journal Actions</h3><label for="postTxId">Transaction ID</label><input id="postTxId" placeholder="Transaction ID"><label for="postRevision">Revision</label><input id="postRevision" type="number" value="0"><button class="btn secondary" id="postJournalBtn">Post Journal</button><label for="reverseTxId">Reverse Transaction ID</label><input id="reverseTxId" placeholder="Transaction ID"><label for="reverseRevision">Revision</label><input id="reverseRevision" type="number" value="0"><button class="btn secondary" id="reverseJournalBtn">Reverse Journal (Transaction)</button><label for="reverseEntryId">Reverse Entry ID</label><input id="reverseEntryId" placeholder="Journal Entry ID"><button class="btn secondary" id="reverseEntryBtn">Reverse Journal Entry</button><p class="message" id="journalActionMessage"></p></div><div class="coa-toolbar"><div class="coa-card"><strong>Total Transactions</strong><div id="migTotal">0</div></div><div class="coa-card"><strong>Ready</strong><div id="migReady">0</div></div><div class="coa-card"><strong>Failed</strong><div id="migFailed">0</div></div><div class="coa-card"><strong>Needs Review</strong><div id="migNeeds">0</div></div><div class="coa-card"><strong>Already Journalized</strong><div id="migAlready">0</div></div></div><div class="coa-toolbar"><div class="coa-card"><strong>Total Debit</strong><div id="migDebit">0</div></div><div class="coa-card"><strong>Total Credit</strong><div id="migCredit">0</div></div><div class="coa-card"><strong>Difference</strong><div id="migDiff">0</div></div></div><table class="mig-table"><thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Debit</th><th>Credit</th><th>Status</th><th>Validation Message</th></tr></thead><tbody id="migTableBody"></tbody></table><div class="coa-card"><strong>Preview Journal</strong><div id="migPreview"></div></div><div class="coa-card"><strong>Migration Drafts</strong><div id="migDraftList"></div></div>
   </section>
   <section class="page" id="page-settings">
     <div class="card settings-collapse-card">
@@ -1025,14 +1106,17 @@ body{padding-bottom:0 !important}
   <section class="page" id="page-coa"></section>
   <section class="page" id="page-gl">
     <div class="section" style="margin-top:5px"><div><p class="eyebrow">GENERAL LEDGER</p><h2>แยกประเภท</h2></div></div>
-    <div class="card stack">
-      <div><label for="glAccount">บัญชี</label><select id="glAccount" style="width:100%"></select></div>
-      <div style="display:flex;gap:8px"><div style="flex:1"><label for="glFrom">วันที่เริ่มต้น</label><input type="date" id="glFrom" style="width:100%"></div><div style="flex:1"><label for="glTo">วันที่สิ้นสุด</label><input type="date" id="glTo" style="width:100%"></div></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="glSearchBtn" type="button" style="flex:1">ค้นหา</button></div>
+    <div id="glFilterBar" class="card" style="display:flex;flex-direction:column;gap:8px;align-items:stretch">
+      <div style="display:grid;grid-template-columns:minmax(140px,1fr) minmax(160px,1fr);gap:8px;align-items:end">
+        <div style="min-width:0"><label for="glSearch" class="small" style="display:block;margin-bottom:4px">ค้นหา (เลขที่/รายละเอียด)</label><input id="glSearch" type="text" placeholder="เลขที่รายการหรือรายละเอียด" style="width:100%;box-sizing:border-box"></div>
+        <div style="min-width:0"><label for="glAccount" class="small" style="display:block;margin-bottom:4px">เลือกบัญชี</label><select id="glAccount" style="width:100%;box-sizing:border-box"></select></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:end"><div style="min-width:0"><label for="glFrom" class="small" style="display:block;margin-bottom:4px">ตั้งแต่วันที่</label><input type="date" id="glFrom" style="width:100%;min-width:0;box-sizing:border-box"></div><div style="min-width:0"><label for="glTo" class="small" style="display:block;margin-bottom:4px">ถึงวันที่</label><input type="date" id="glTo" style="width:100%;min-width:0;box-sizing:border-box"></div></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap"><button class="btn" id="glSearchBtn" type="button" style="padding:8px 10px;min-height:38px">ค้นหา</button><button class="btn secondary" id="glClearBtn" type="button" style="padding:8px 10px;min-height:38px">ล้างตัวกรอง</button></div>
     </div>
-    <div class="card"><div style="overflow:auto"><table class="mig-table" id="glTable"><thead><tr><th>วันที่</th><th>เลขที่รายการ</th><th>รายละเอียด</th><th style="text-align:right">เดบิต</th><th style="text-align:right">เครดิต</th><th style="text-align:right">ยอดคงเหลือ</th></tr></thead><tbody id="glBody"></tbody></table></div><div id="glEmpty" class="empty" style="display:none">ไม่มีรายการ</div></div>
+    <div class="card gl-table-card"><div class="gl-table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%"><table class="mig-table gl-ledger-table" id="glTable"><colgroup><col style="min-width:96px;width:96px"><col style="min-width:108px;width:108px"><col style="min-width:180px"><col style="min-width:96px;width:96px"><col style="min-width:96px;width:96px"><col style="min-width:110px;width:110px"></colgroup><thead><tr><th>วันที่</th><th>เลขที่รายการ</th><th>รายละเอียด</th><th style="text-align:right">เดบิต</th><th style="text-align:right">เครดิต</th><th style="text-align:right">ยอดคงเหลือ</th></tr></thead><tbody id="glBody"></tbody></table></div><div id="glEmpty" class="empty" style="display:none">เลือกบัญชี</div></div>
   </section>
-  <section class="page" id="page-tb"><div class="section" style="margin-top:5px"><div><p class="eyebrow">TRIAL BALANCE</p><h2>งบทดลอง</h2></div></div></section>
+  <section class="page" id="page-tb"><div class="section" style="margin-top:5px"><div><p class="eyebrow">TRIAL BALANCE</p><h2>งบทดลอง</h2></div></div><div id="accountingReportsTb" class="stack"></div></section>
   <section class="page" id="page-is"><div class="section" style="margin-top:5px"><div><p class="eyebrow">INCOME STATEMENT</p><h2>งบกำไรขาดทุน</h2></div></div></section>
   <section class="page" id="page-financial"><div class="section" style="margin-top:5px"><div><p class="eyebrow">FINANCIAL STATEMENTS</p><h2>รายงานการเงิน</h2></div></div></section>
 <style>
@@ -1153,6 +1237,9 @@ function localDate(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth(
 function currentMonth(){return localDate().slice(0,7)}
 function download(name,content,mime){const blob=new Blob([content],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 const pageScrollPositions={};
+function _sidebarModeForPage(page){try{if(page!=='record')return '';var mj=document.getElementById('manualJournalSection');if(mj&&mj.style.display!=='none')return 'Manual';if(typeof recordTypeFilter!=='undefined'&&recordTypeFilter)return String(recordTypeFilter);if(typeof type!=='undefined'&&type)return String(type);return '';}catch(_){return ''}}
+function syncSidebarActive(page){try{var p=page||(document.querySelector('.page.active')&&document.querySelector('.page.active').id||'').replace(/^page-/,'')||'home';var mode=(p==='record')?_sidebarModeForPage('record'):'';var items=document.querySelectorAll('#erpSidebarProto .item[data-nav-go]');if(!items.length)return;var best=null,score=-1;items.forEach(function(it){var g=it.getAttribute('data-nav-go')||'';var m=it.getAttribute('data-nav-mode')||'';if(g!==p){it.classList.remove('active');return;}var s=1;if(p==='record'){if(m&&mode&&m===mode)s=3;else if(!m&&!mode)s=2;}if(s>score){score=s;best=it;}});items.forEach(function(it){it.classList.toggle('active',it===best);});if(!best){items.forEach(function(it){if(it.getAttribute('data-nav-go')==='home')it.classList.add('active');});}}catch(_){ }}
+window.syncSidebarActive=syncSidebarActive;
 function navigate(page){
   console.log('NAVIGATE: called with page =', page);
   const current=document.querySelector('.page.active');
@@ -1164,9 +1251,11 @@ function navigate(page){
   if(page!=='record'){document.documentElement.classList.remove('slip-read');document.body.classList.remove('slip-read');}
   else{document.documentElement.classList.remove('slip-read');document.body.classList.remove('slip-read');}
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.go===page));
+  try{syncSidebarActive(page);}catch(_){ }
   if(page==='home')renderHome();
   if(page==='settings')renderSettings();
   if(page==='coa'){console.log('PRE: about to render COA page');renderCOA();console.log('POST: renderCOA completed');}
+  if(page==='tb')renderAccountingReports();
   if(page==='reports')renderReports();
 if(page==='gl')renderGeneralLedgerPage();
   if(page==='journal'){renderJournal();}
@@ -1183,9 +1272,14 @@ function renderGeneralLedgerPage(){
   const coa=window.MyMoneyCOA?window.MyMoneyCOA.get():[];
   if(!sel.options.length){ sel.innerHTML=coa.map(c=>`<option value="${esc(c.id)}">${esc(c.code?c.code+' '+c.name:c.name)}</option>`).join(''); }
   const accountId=sel.value;
-  const from=$('glFrom').value; const to=$('glTo').value; const q='';
+  const from=($('glFrom')&&$('glFrom').value)||''; const to=($('glTo')&&$('glTo').value)||''; const qRaw=($('glSearch')&&$('glSearch').value)||''; const q=qRaw.trim().toLowerCase();
+  const fmtDate=v=>{try{const s=String(v==null?'':v).trim();const m=s.match(/^\d{4}-\d{2}-\d{2}/);if(!m)return esc(s);const y=+m[0].slice(0,4),mo=+m[0].slice(5,7),d=+m[0].slice(8,10);if(!(y>=1&&mo>=1&&mo<=12&&d>=1&&d<=31))return esc(s);const dt=new Date(Date.UTC(y,mo-1,d));if(dt.getUTCFullYear()!==y||dt.getUTCMonth()!==mo-1||dt.getUTCDate()!==d)return esc(s);return String(d).padStart(2,'0')+'/'+String(mo).padStart(2,'0')+'/'+String(y+543);}catch(_){return esc(String(v==null?'':v))}};
   const entries=(window.MyMoneyJournal?.getEntries?.()||[]).filter(e=>e.status==='Posted');
-  const accountName=(coa.find(c=>c.id===accountId)||{}).name||accountId;
+  const txList=(typeof window.getTx==='function')?window.getTx():((typeof tx!=='undefined'&&Array.isArray(tx))?tx:[]);
+  const txById=Object.fromEntries((Array.isArray(txList)?txList:[]).map(t=>[String(t&&t.id),t]));
+  const txjLinks=(window.MyMoneyTxJournal&&window.MyMoneyTxJournal.links&&typeof window.MyMoneyTxJournal.links==='function')?window.MyMoneyTxJournal.links():[];
+  const linkTxByJe=Object.fromEntries((Array.isArray(txjLinks)?txjLinks:[]).map(l=>[String(l&&l.journalEntryId),String(l&&l.transactionId)]));
+  const docNoFor=e=>{try{const st=String(e&&e.sourceType||'');const sid=String(e&&e.sourceId!=null?e.sourceId:'');let tid=(st==='Transaction'&&sid)?sid:(linkTxByJe[String(e&&e.id)]||'');if(!tid)return '';const t=txById[String(tid)];const v=(t&&t.docNo!=null)?String(t.docNo).trim():'';return v;}catch(_){return ''}};
   let opening=0; const moves=[];
   entries.forEach(e=>{
     (e.lines||[]).forEach(l=>{
@@ -1193,14 +1287,14 @@ function renderGeneralLedgerPage(){
       const amt=Number(l.debit||0)-Number(l.credit||0);
       if(from && e.date < from){ opening += amt; return; }
       if(to && e.date > to) return;
-      if(q && !(String(e.description||'').toLowerCase().includes(q) || String(e.id||'').toLowerCase().includes(q))) return;
-      moves.push({date:e.date,id:e.id,desc:e.description||'',debit:Number(l.debit||0),credit:Number(l.credit||0),amt});
+      if(q){const dn=String(docNoFor(e)||'').toLowerCase();const de=String(e.description||'').toLowerCase();const ld=String((l&&l.description)||'').toLowerCase();if(!(dn.includes(q)||de.includes(q)||ld.includes(q))) return;}
+      moves.push({date:e.date,ref:docNoFor(e),desc:(l&&l.description)?l.description:(e.description||''),debit:Number(l.debit||0),credit:Number(l.credit||0),amt});
     });
   });
-  moves.sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.id).localeCompare(String(b.id)));
+  moves.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
   let run=opening; let totD=0; let totC=0;
-  const rows=moves.map(m=>{ run+=m.amt; totD+=m.debit; totC+=m.credit; return `<tr><td>${esc(m.date)}</td><td>${esc(m.id)}</td><td>${esc(m.desc)}</td><td style="text-align:right">${money(m.debit)}</td><td style="text-align:right">${money(m.credit)}</td><td style="text-align:right">${money(run)}</td></tr>`; }).join('');
-  const empty=$('glEmpty'); if(!moves.length && !opening){ empty.style.display='block'; } else empty.style.display='none';
+  const rows=moves.map(m=>{ run+=m.amt; totD+=m.debit; totC+=m.credit; return `<tr><td>${fmtDate(m.date||'')}</td><td>${esc(String(m.ref||'').trim())}</td><td>${esc(m.desc||'')}</td><td style="text-align:right">${money(m.debit)}</td><td style="text-align:right">${money(m.credit)}</td><td style="text-align:right">${money(run)}</td></tr>`; }).join('');
+  const empty=$('glEmpty'); if(!moves.length && !opening){ if(empty)empty.style.display='block'; } else if(empty) empty.style.display='none';
   $('glBody').innerHTML = `<tr><td></td><td></td><td><strong>ยอดยกมา</strong></td><td></td><td></td><td style="text-align:right"><strong>${money(opening)}</strong></td></tr>` + rows + `<tr><td></td><td></td><td><strong>รวมรายการ</strong></td><td style="text-align:right"><strong>${money(totD)}</strong></td><td style="text-align:right"><strong>${money(totC)}</strong></td><td style="text-align:right"></td></tr>` + `<tr><td></td><td></td><td><strong>ยอดยกไป</strong></td><td></td><td></td><td style="text-align:right"><strong>${money(run)}</strong></td></tr>`;
   if($('glSummary')) $('glSummary').innerHTML = '';
 }
@@ -1208,11 +1302,43 @@ window.renderGeneralLedgerPage=renderGeneralLedgerPage;
 if($('glSearchBtn')) $('glSearchBtn').addEventListener('click',renderGeneralLedgerPage);
 if($('glClearBtn')) $('glClearBtn').addEventListener('click',()=>{if($('glFrom'))$('glFrom').value='';if($('glTo'))$('glTo').value='';if($('glSearch'))$('glSearch').value='';renderGeneralLedgerPage();});
 if($('glAccount')) $('glAccount').addEventListener('change',renderGeneralLedgerPage);
-function renderJournal(){const p=document.getElementById('page-journal');if(!p)return;const entries=(window.MyMoneyJournal&&window.MyMoneyJournal.getEntries)?window.MyMoneyJournal.getEntries():[];const rows=entries.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(e=>{const lines=Array.isArray(e.lines)?e.lines:[];const d=lines.reduce((s,l)=>s+(Number(l.debit)||0),0);const c=lines.reduce((s,l)=>s+(Number(l.credit)||0),0);return `<tr><td>${esc(e.entryNumber||e.id||'')}</td><td>${esc(e.date||'')}</td><td>${esc(e.description||'')}</td><td>${esc(e.sourceType||'')}</td><td style="text-align:right">${money(d)}</td><td style="text-align:right">${money(c)}</td><td>${esc(e.status||'')}</td></tr>`;}).join('');p.innerHTML=`<div class="coa-header"><div><p class="eyebrow">JOURNAL</p><h2>สมุดรายวัน</h2></div></div><section class="coa-card"><div class="small">รายการทั้งหมด ${entries.length}</div><table style="width:100%"><thead><tr><th>เลขที่</th><th>วันที่</th><th>รายละเอียด</th><th>แหล่งที่มา</th><th>เดบิต</th><th>เครดิต</th><th>สถานะ</th></tr></thead><tbody>${rows||'<tr><td colspan="7" class="small">ไม่มีรายการ</td></tr>'}</tbody></table></section>`;} window.navigate = navigate;
+function renderJournal(){const mount=document.getElementById('journalListMount');if(!mount)return;const entries=(window.MyMoneyJournal&&window.MyMoneyJournal.getEntries)?window.MyMoneyJournal.getEntries():[];const sorted=entries.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));const coa=(window.MyMoneyCOA&&window.MyMoneyCOA.get)?window.MyMoneyCOA.get():[];const byId=Object.fromEntries((Array.isArray(coa)?coa:[]).map(x=>[String(x.id),x]));const txList=(typeof window.getTx==='function')?window.getTx():((typeof tx!=='undefined'&&Array.isArray(tx))?tx:[]);const txById=Object.fromEntries((Array.isArray(txList)?txList:[]).map(t=>[String(t&&t.id),t]));const txjLinks=(window.MyMoneyTxJournal&&window.MyMoneyTxJournal.links&&typeof window.MyMoneyTxJournal.links==='function')?window.MyMoneyTxJournal.links():[];const linkTxByJe=Object.fromEntries((Array.isArray(txjLinks)?txjLinks:[]).map(l=>[String(l&&l.journalEntryId),String(l&&l.transactionId)]));const docNoFor=e=>{try{const st=String(e&&e.sourceType||'');const sid=String(e&&e.sourceId!=null?e.sourceId:'');let tid=(st==='Transaction'&&sid)?sid:(linkTxByJe[String(e&&e.id)]||'');if(!tid)return '';const t=txById[String(tid)];return (t&&t.docNo!=null)?String(t.docNo).trim():'';}catch(_){return ''}};const fmtDate=v=>{try{const s=String(v==null?'':v).trim();const m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(!m)return esc(s);const y=+m[1],mo=+m[2],d=+m[3];if(!(y>=1&&mo>=1&&mo<=12&&d>=1&&d<=31))return esc(s);const dt=new Date(Date.UTC(y,mo-1,d));if(dt.getUTCFullYear()!==y||dt.getUTCMonth()!==mo-1||dt.getUTCDate()!==d)return esc(s);return String(d).padStart(2,'0')+'/'+String(mo).padStart(2,'0')+'/'+String(y+543);}catch(_){return esc(String(v==null?'':v))}};const escA=s=>esc(String(s==null?'':s));const dateKeyOf=e=>{try{return String(e&&e.date!=null?e.date:'').trim()}catch(_){return ''}};
+/* populate COA account filter from real COA (id preserved) */
+try{const af=document.getElementById('journalAccountFilter');if(af){const cur=String(af.value||'');const opts=['<option value="">ทุกบัญชี</option>'].concat((Array.isArray(coa)?coa:[]).slice().sort((a,b)=>String(a.code||'').localeCompare(String(b.code||''),undefined,{numeric:true})||String(a.name||'').localeCompare(String(b.name||''))).map(a=>{const v=String(a&&a.id!=null?a.id:'');const label=((a&&a.code)?String(a.code)+' - ':'')+String(a&&a.name!=null?a.name:v);return `<option value="${escA(v)}">${escA(label)}</option>`;}));af.innerHTML=opts.join('');af.value=(cur&&Array.from(af.options).some(o=>o.value===cur))?cur:'';}}catch(_){ }
+/* search/filter (real-time; read-only, does not modify stored data) */
+const qRaw=(document.getElementById('journalSearchQ')&&document.getElementById('journalSearchQ').value)||'';const q=qRaw.trim().toLowerCase();const accF=(document.getElementById('journalAccountFilter')&&document.getElementById('journalAccountFilter').value)||'';const dFrom=(document.getElementById('journalDateFrom')&&document.getElementById('journalDateFrom').value)||'';const dTo=(document.getElementById('journalDateTo')&&document.getElementById('journalDateTo').value)||'';const hasFilter=!!(q||accF||dFrom||dTo);try{const x=document.getElementById('journalSearchClearQ');if(x)x.style.display=qRaw?'':'none';}catch(_){}
+const filtered=sorted.filter(e=>{const dk=dateKeyOf(e);if(dFrom&&dk<dFrom)return false;if(dTo&&dk>dTo)return false;if(accF){try{const hasAcc=(Array.isArray(e.lines)?e.lines:[]).some(l=>String(l&&l.accountId!=null?l.accountId:'')===String(accF));if(!hasAcc)return false;}catch(_){return false;}}if(q){const no=String(e.entryNumber!=null?e.entryNumber:(e.id||'')).toLowerCase();const de=String(e.description||'').toLowerCase();const dn=String(docNoFor(e)||'').toLowerCase();let lineHit=false;try{lineHit=(Array.isArray(e.lines)?e.lines:[]).some(l=>String((l&&l.description)||'').toLowerCase().includes(q));}catch(_){}if(!(no.includes(q)||de.includes(q)||dn.includes(q)||lineHit))return false;}return true;});
+/* 1) flatten all entries+lines into rows first (show full entry, all lines) */
+const flat=[];filtered.forEach(e=>{const lines=Array.isArray(e.lines)?e.lines:[];const dk=dateKeyOf(e);const dateDisp=fmtDate(e.date||'');const no=escA(docNoFor(e));const statusRaw=String(e.status==null?'':e.status).trim();const status=statusRaw?`<span class="jrnl-status">${esc(statusRaw)}</span>`:'';if(!lines.length){flat.push({dk,dateDisp,no,status,accLabel:`<span class="jrnl-muted">-</span>`,desc:escA(e.description||''),dRaw:String(e.description||''),dAmt:0,cAmt:0});return;}lines.forEach(line=>{const aid=String(line&&line.accountId!=null?line.accountId:'');const a=byId[aid];const missing=!a&&line&&line.accountId;const code=a&&a.code?String(a.code):'';const name=a?String(a.name||''):(aid||'-');const accLabel=`<span class="jrnl-acct-code">${esc(code||'—')}</span><span class="jrnl-acct-name">${esc(name)}</span>`+(missing?`<span class="jrnl-warn">(ไม่พบ COA)</span>`:'');const dRaw=(line&&line.description)?line.description:(e.description||'');flat.push({dk,dateDisp,no,status,accLabel,desc:escA(dRaw),dRaw:String(dRaw),dAmt:Number(line&&line.debit)||0,cAmt:Number(line&&line.credit)||0});});});
+/* 2) group flattened rows by actual dateKey (many entries same day => same group) */
+const groups=[];let cur=null;flat.forEach(r=>{if(!cur||cur.dk!==r.dk){cur={dk:r.dk,dateDisp:r.dateDisp,rows:[]};groups.push(cur);}cur.rows.push(r);});
+/* 3) render with rowspan date cell once per day, G0/G1 by day group, gstart only first row of day */
+const rows=[];groups.forEach((g,gi)=>{const gcls='jrnl-g'+(gi%2);g.rows.forEach((r,ri)=>{const first=ri===0;const trcls=gcls+(first?' jrnl-gstart':'');const dateTd=first?`<td class="jrnl-date" rowspan="${g.rows.length}">${g.dateDisp}</td>`:'';rows.push(`<tr class="${trcls}">${dateTd}<td class="jrnl-no">${r.no}</td><td class="jrnl-acct">${r.accLabel}</td><td class="jrnl-desc" title="${escA(r.dRaw)}">${r.desc}</td><td class="jrnl-num">${r.dAmt?money(r.dAmt):''}</td><td class="jrnl-num">${r.cAmt?money(r.cAmt):''}</td><td class="jrnl-st">${r.status}</td></tr>`);});});
+const emptyMsg=hasFilter?'ไม่พบรายการ': 'ไม่มีรายการ';
+mount.innerHTML=`<section class="coa-card jrnl-card" style="margin-bottom:12px"><div class="small jrnl-summary">รายการ Journal ${filtered.length}${hasFilter?` / ${sorted.length}`:''} รายการ · ${rows.length} บรรทัด (lines)${hasFilter?' <span style="color:var(--muted,#94A3B8)">(กำลังกรอง)</span>':''}</div><div class="jrnl-scroll"><table class="jrnl-table jrnl-grouped"><colgroup><col class="jrnl-col-date"><col class="jrnl-col-no"><col class="jrnl-col-acct"><col class="jrnl-col-desc"><col class="jrnl-col-num"><col class="jrnl-col-num"><col class="jrnl-col-st"></colgroup><thead><tr><th class="jrnl-th-date">วันที่</th><th class="jrnl-th-no">เลขที่เอกสาร</th><th>รหัสบัญชี / ชื่อบัญชี</th><th>รายละเอียด</th><th class="jrnl-th-num">เดบิต</th><th class="jrnl-th-num">เครดิต</th><th class="jrnl-th-st">สถานะ</th></tr></thead><tbody>${rows.join('')||`<tr><td colspan="7" class="small jrnl-empty">${emptyMsg}</td></tr>`}</tbody></table></div></section>`;} window.navigate = navigate;
+// journal search (real-time, read-only filter)
+(function(){if(window.__jrnlSearchWired)return;window.__jrnlSearchWired=true;const rer=()=>{try{if(typeof renderJournal==='function')renderJournal()}catch(_){}};['journalSearchQ','journalAccountFilter','journalDateFrom','journalDateTo'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('input',rer);el.addEventListener('change',rer);});const cq=document.getElementById('journalSearchClearQ');if(cq)cq.addEventListener('click',()=>{const q=document.getElementById('journalSearchQ');if(q){q.value='';q.focus();}rer();});const cs=document.getElementById('journalFilterSearch');if(cs)cs.addEventListener('click',rer);const cd=document.getElementById('journalFilterClear')||document.getElementById('journalDateClear');if(cd)cd.addEventListener('click',()=>{const q=document.getElementById('journalSearchQ'),a=document.getElementById('journalDateFrom'),b=document.getElementById('journalDateTo'),f=document.getElementById('journalAccountFilter');if(q)q.value='';if(a)a.value='';if(b)b.value='';if(f)f.value='';rer();});})();
+
 document.addEventListener('click',e=>{console.log('EVENT: document received click');const go=e.target.closest('[data-go]');console.log('ANALYSIS: e.target tagName =', e.target.tagName, 'type =', e.target.type);console.log('SEARCH: closest [data-go] =', go);if(go){console.log('BUTTON: go.dataset.go =', go.dataset.go);e.preventDefault();navigate(go.dataset.go)}});
-function fillSelect(id,values,selected){const el=$(id);el.innerHTML=values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if(values.includes(selected))el.value=selected}
-function setType(t){type=t;document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===t));$('categoryRow').hidden=t==='Transfer';$('transferRow').hidden=t!=='Transfer';fillSelect('category',catNames(cats[t]));fillSelect('account',accounts.map(a=>a.name));fillSelect('transferFrom',accounts.map(a=>a.name));fillSelect('transferTo',accounts.map(a=>a.name),accounts[1]?.name||accounts[0]?.name);$('save').textContent=t==='Expense'?'บันทึกรายจ่าย':t==='Income'?'บันทึกรายรับ':'บันทึกการโอน';$('formHeading').textContent=editingId?'แก้ไขรายการ':'บันทึกรายการ';const _sb=$('save');_sb.classList.remove('save-expense','save-transfer','save-income');if(t==='Expense')_sb.classList.add('save-expense');else if(t==='Transfer')_sb.classList.add('save-transfer');else _sb.classList.add('save-income')}
-document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>setType(b.dataset.type))); window.setType=setType;
+function fillSelect(id,values,selected){const el=$(id);if(!el)return;const norm=(Array.isArray(values)?values:[]).map(v=>{if(v&&typeof v==='object'&&('value' in v||'id' in v))return{value:String(v.value!=null?v.value:v.id),text:String(v.text!=null?v.text:(v.code?String(v.code)+' '+(v.name||''): (v.name||v.value||v.id||'')))};return{value:String(v==null?'':v),text:String(v==null?'':v)}});el.innerHTML=norm.map(v=>`<option value="${esc(v.value)}">${esc(v.text)}</option>`).join('');if(selected!=null&&selected!==''){const s=String(selected);if(norm.some(v=>v.value===s))el.value=s;else{const o=document.createElement('option');o.value=s;o.textContent=s;o.dataset.legacy='1';el.appendChild(o);el.value=s}}}
+function _coaLabel(a){return a?(String(a.code||'')?String(a.code)+' '+String(a.name||''):String(a.name||a.id||'')):''}
+function _coaPostable(type){try{return (window.MyMoneyCOA&&window.MyMoneyCOA.getCoaAccountsByType)?window.MyMoneyCOA.getCoaAccountsByType(type):(window.MyMoneyCOA?window.MyMoneyCOA.get().filter(x=>x&&x.type===type&&window.MyMoneyCOA.canPost(x.id)) : [])}catch(_){return[]}}
+function _coaPostableTypes(types){try{return (window.MyMoneyCOA&&window.MyMoneyCOA.getPostableCoaByTypes)?window.MyMoneyCOA.getPostableCoaByTypes(types):(window.MyMoneyCOA?window.MyMoneyCOA.get().filter(x=>x&&types.includes(x.type)&&window.MyMoneyCOA.canPost(x.id)) : [])}catch(_){return[]}}
+function _coaOpts(list,legacyName,expectType){const opts=(list||[]).map(a=>({value:a.id,text:_coaLabel(a)}));const n=String(legacyName==null?'':legacyName).replace(/\s+/g,' ').trim();if(n){const match=(list||[]).filter(a=>String(a.name||'').replace(/\s+/g,' ').trim()===n && (!expectType||a.type===expectType));if(match.length===0)opts.unshift({value:'__legacy__:'+n,text:n+' (เดิม/ไม่พบใน COA)'});}return opts}
+function _resolveCoaIdFromSelectValue(val){const v=String(val==null?'':val); if(!v||v.startsWith('__legacy__:')) return null; if(window.MyMoneyCOA&&window.MyMoneyCOA.get().some(x=>String(x.id)===v)) return v; return null}
+function _coaNameById(id){const a=(window.MyMoneyCOA&&window.MyMoneyCOA.get().find(x=>String(x.id)===String(id))); return a?String(a.name||a.code||id):String(id||'')}
+function _findUniqueCoaIdByName(name,types){const n=String(name==null?'':name).replace(/\s+/g,' ').trim(); if(!n||!window.MyMoneyCOA) return null; const ts=[].concat(types||[]); const list=window.MyMoneyCOA.get().filter(x=>x&&ts.includes(x.type)&&window.MyMoneyCOA.canPost(x.id)&&String(x.name||'').replace(/\s+/g,' ').trim()===n); return list.length===1?String(list[0].id):null}
+function _fillCoaSelect(id,type,selectedName){const list=_coaPostable(type);const opts=_coaOpts(list,selectedName,type);const matchId=_findUniqueCoaIdByName(selectedName,type);fillSelect(id,opts,matchId|| (String(selectedName||'').trim()?('__legacy__:'+String(selectedName).replace(/\s+/g,' ').trim()):null))}
+function _fillCoaSelectTypes(id,types,selectedName){const list=_coaPostableTypes(types);const opts=_coaOpts(list,selectedName,null);const matchId=_findUniqueCoaIdByName(selectedName,types);fillSelect(id,opts,matchId|| (String(selectedName||'').trim()?('__legacy__:'+String(selectedName).replace(/\s+/g,' ').trim()):null))}
+let recordTypeFilter=null; // null = show all type buttons (default/back-compat); 'Income'|'Expense'|'Transfer' = sidebar-scoped
+function _syncRecordTypeButtons(){try{const f=recordTypeFilter;document.querySelectorAll('[data-type]').forEach(b=>{const on=!f||b.dataset.type===f;b.style.display=on?'':'none';b.classList.toggle('active',b.dataset.type===type)});const mb=document.getElementById('recordModeManual');if(mb)mb.classList.remove('active')}catch(e){}}
+function _applyTxType(t){type=t;_syncRecordTypeButtons();const cr=$('categoryRow'),tr=$('transferRow');if(cr)cr.hidden=t==='Transfer';if(tr)tr.hidden=t!=='Transfer';if(t==='Income'){_fillCoaSelect('category','Income',null);_fillCoaSelect('account','Asset',null)}else if(t==='Expense'){_fillCoaSelect('category','Expense',null);_fillCoaSelect('account','Asset',null)}else{_fillCoaSelectTypes('transferFrom',['Asset','Liability'],null);_fillCoaSelectTypes('transferTo',['Asset','Liability'],null)}const sv=$('save');if(sv){sv.textContent=t==='Income'?'บันทึกรายได้':t==='Transfer'?'บันทึกการโอน':'บันทึกรายจ่าย'}}
+function setRecordMode(m){try{const manual=(m==='Manual');const mj=document.getElementById('manualJournalSection');const formCard=document.querySelector('#page-record form')&&document.querySelector('#page-record form').closest('section.card');if(mj)mj.style.display=manual?'':'none';if(formCard)formCard.style.display=manual?'none':'';const slip=document.querySelector('#page-record .slip-card');if(slip)slip.style.display=manual?'none':'';const mb=document.getElementById('recordModeManual');if(mb)mb.classList.toggle('active',manual);if(manual){document.querySelectorAll('[data-type]').forEach(b=>b.classList.remove('active'));const h=document.getElementById('formHeading');if(h)h.textContent='บันทึกแบบแมนนวล'}else{_syncRecordTypeButtons();const h=document.getElementById('formHeading');if(h)h.textContent=(editingId!==null)?'แก้ไขรายการ':'บันทึกรายการ'}}catch(e){}try{syncSidebarActive('record');}catch(_){}}
+function setType(t){setRecordMode('Tx');_applyTxType(t||type||'Expense')}
+function openRecordType(t){try{recordTypeFilter=(t==='Income'||t==='Expense'||t==='Transfer')?t:null}catch(e){recordTypeFilter=null}navigate('record');setType(recordTypeFilter||'Expense')}
+document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>{setType(b.dataset.type)}));
+(function(){const mb=document.getElementById('recordModeManual');if(mb)mb.addEventListener('click',()=>{navigate('record');setRecordMode('Manual')});})();
+window.setType=setType; window.setRecordMode=setRecordMode; window._applyTxType=_applyTxType; window.openRecordType=openRecordType;
 function accountBalances(){const out={};accounts.forEach(a=>out[a.name]=Number(a.opening)||0);getJournalEntries().forEach(r=>{const amount=Number(r.amount)||0;if(accounts.some(a=>a.name===r.debit)){const t=accountTypeOfName(r.debit);if(t==='Asset'||t==='Expense')out[r.debit]=(out[r.debit]||0)+amount;else out[r.debit]=(out[r.debit]||0)-amount}if(accounts.some(a=>a.name===r.credit)){const t=accountTypeOfName(r.credit);if(t==='Asset'||t==='Expense')out[r.credit]=(out[r.credit]||0)-amount;else out[r.credit]=(out[r.credit]||0)+amount}});return out}
 function monthlyTotals(month){let income=0,expense=0,count=0;tx.forEach(t=>{if(String(t.date||'').startsWith(month)){count++;if(t.type==='Income')income+=Number(t.amount)||0;if(t.type==='Expense')expense+=Number(t.amount)||0}});return{income,expense,count,net:income-expense}}
 function sortedTx(arr=tx){return[...arr].sort((a,b)=>String(b.date).localeCompare(String(a.date))||(Number(b.id)||0)-(Number(a.id)||0))}
@@ -1287,7 +1413,7 @@ function initReportDropdowns(){
   const glReset=$('glReset');if(glReset)glReset.addEventListener('click',()=>{glSelected=null;renderAccountingReports();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){const tp=$('tbPanel');if(tp)tp.style.display='none';const tt=$('tbTrigger');if(tt)tt.setAttribute('aria-expanded','false');const gp=$('glPanel');if(gp)gp.style.display='none';const gt=$('glTrigger');if(gt)gt.setAttribute('aria-expanded','false');}});
 }
-function renderAccountingReports(){const el=$('accountingReports');if(!el)return;const entries=getJournalEntries();const month=$('reportMonth')?.value||currentMonth();
+function renderAccountingReports(){const _arTargets=['accountingReports','accountingReportsTb'].map(function(id){return document.getElementById(id)}).filter(Boolean);if(!_arTargets.length)return;_arTargets.forEach(function(t){t.innerHTML=''});var _active=document.querySelector('.page.active');const el=_arTargets.find(function(t){return _active&&t.closest&&t.closest('.page')===_active})||document.getElementById('accountingReports')||_arTargets[0];if(!el)return;const entries=getJournalEntries();const month=$('reportMonth')?.value||currentMonth();
  const [py,pm]=month.split('-').map(Number);const lastDay=new Date(py,pm,0).getDate();
  const monthStart=`${month}-01`,monthEnd=`${month}-${String(lastDay).padStart(2,'0')}`;
  if(month!==lastReportMonth){tbFrom=monthStart;tbTo=monthEnd;glFrom=monthStart;glTo=monthEnd;tbQuery='';glQuery='';glSelected=null;lastReportMonth=month;}
@@ -1304,7 +1430,7 @@ function renderAccountingReports(){const el=$('accountingReports');if(!el)return
  let html='';
 
  // ================= 1. TRIAL BALANCE =================
-html+='<div class="report-tabs" style="display:flex;gap:8px;margin:8px 0"><button class="btn secondary" onclick="window.showReportTab(&quot;tb&quot;)">งบทดลอง</button><button class="btn secondary" onclick="window.showReportTab(&quot;gl&quot;)">แยกประเภท</button><button class="btn secondary" onclick="window.showReportTab(&quot;is&quot;)">งบกำไรขาดทุน</button><button class="btn secondary" onclick="window.showReportTab(&quot;bs&quot;)">งบดุล</button></div>';html+='<div class="report-section" data-report="tb"><h3>งบทดลอง (Trial Balance)</h3>';
+if(!(el&&el.id==='accountingReportsTb'))html+='<div class="report-tabs" style="display:flex;gap:8px;margin:8px 0"><button class="btn secondary" onclick="window.showReportTab(&quot;tb&quot;)">งบทดลอง</button><button class="btn secondary" onclick="window.showReportTab(&quot;gl&quot;)">แยกประเภท</button><button class="btn secondary" onclick="window.showReportTab(&quot;is&quot;)">งบกำไรขาดทุน</button><button class="btn secondary" onclick="window.showReportTab(&quot;bs&quot;)">งบดุล</button></div>';html+='<div class="report-section" data-report="tb"><h3>งบทดลอง (Trial Balance)</h3>';
   html+=`<div class="grid" style="margin:8px 0"><div><label for="tbFrom">ตั้งแต่วันที่</label><input type="date" id="tbFrom" value="${esc(tbFrom)}"></div><div><label for="tbTo">ถึงวันที่</label><input type="date" id="tbTo" value="${esc(tbTo)}"></div></div>`;
   html+=`<div class="dd-wrap" id="tbDD"><div class="dd-trigger" id="tbTrigger" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-controls="tbPanel"><span id="tbLabel">${tbQuery?esc(accountLabelOfName(tbQuery)):'ค้นหาชื่อบัญชี...'}</span><span class="chev">▾</span></div><div class="dd-panel" id="tbPanel" style="display:none"><input class="dd-search" id="tbDDSearch" type="text" placeholder="พิมพ์ค้นหา..."><div id="tbDDList"></div></div></div>`;
 
@@ -1321,23 +1447,32 @@ html+='<div class="report-tabs" style="display:flex;gap:8px;margin:8px 0"><butto
   if(t==='Asset'||t==='Expense'){endBal+=(pDebit-pCredit);}else{endBal+=(pCredit-pDebit);}
   const hasActivity=Math.abs(openBal)>0.0001||pDebit>0||pCredit>0||Math.abs(endBal)>0.0001;
   const isConfigured=accounts.some(a=>a.name===name);
-  if(!hasActivity&&!isConfigured&&!qTb)return;
-  if(qTb&&!name.toLowerCase().includes(qTb))return;
+  const _qHit=!qTb||String(name||'').toLowerCase().includes(qTb)||String(((window.MyMoneyCOA&&window.MyMoneyCOA.get?window.MyMoneyCOA.get():[]).find(function(c){return c&&c.name===name})||accounts.find(function(a){return a&&a.name===name})||{}).code||'').toLowerCase().includes(qTb);
+  if(qTb&&!_qHit)return;
+  const _hasShow=Math.abs(pDebit)>0.0001||Math.abs(pCredit)>0.0001||Math.abs(endBal)>0.0001;
+  if(!_hasShow)return;
   tbRows.push({name,type:t,openBal,debit:pDebit,credit:pCredit,balance:endBal});
  });
 
+ const _coaSort=(window.MyMoneyCOA&&window.MyMoneyCOA.get)?window.MyMoneyCOA.get():[];
+ const _cSort=function(n){var a=_coaSort.find(function(c){return c&&c.name===n})||accounts.find(function(a){return a&&a.name===n});return String((a&&(a.code!=null?a.code:(a.coaCode!=null?a.coaCode:'')))||'').trim()};
+ tbRows.sort(function(a,b){var ca=_cSort(a.name),cb=_cSort(b.name);if(ca!==cb)return ca.localeCompare(cb,undefined,{numeric:true,sensitivity:'base'});return String(a.name||'').localeCompare(String(b.name||''),undefined,{sensitivity:'base'})});
  const dispTbDebit=tbRows.reduce((s,r)=>s+r.debit,0);const dispTbCredit=tbRows.reduce((s,r)=>s+r.credit,0);
  const tbFooterLabel=qTb?`รวมที่แสดง (${tbRows.length} บัญชี)`:`รวมทั้งหมด (${tbRows.length} บัญชี)`;
  const tbFooterDebit=qTb?dispTbDebit:tbd;const tbFooterCredit=qTb?dispTbCredit:tbc;
- html+=`<div style="overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch"><table style="width:100%;min-width:440px;font-size:12px;border-collapse:collapse;white-space:nowrap"><thead><tr style="border-bottom:1px solid var(--line);color:var(--muted)"><th style="padding:7px 8px;text-align:left">ชื่อบัญชี</th><th style="padding:7px 8px;text-align:right">เดบิต</th><th style="padding:7px 8px;text-align:right">เครดิต</th><th style="padding:7px 8px;text-align:right">ยอดคงเหลือ</th></tr></thead><tbody>`;
+ const _coaTb=(window.MyMoneyCOA&&window.MyMoneyCOA.get)?window.MyMoneyCOA.get():[];
+ const _codeOf=function(n){var a=_coaTb.find(function(c){return c&&c.name===n})||accounts.find(function(a){return a&&a.name===n});return (a&&(a.code!=null?a.code:(a.coaCode!=null?a.coaCode:'')))||''};
+ const _fmtNum=function(v){return Number(v||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})};
+ html+=`<div style="overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch"><table style="width:100%;min-width:520px;font-size:12px;border-collapse:collapse;white-space:nowrap"><thead><tr style="border-bottom:1px solid var(--line);color:var(--muted)"><th style="padding:7px 8px;text-align:left">เลขที่บัญชี</th><th style="padding:7px 8px;text-align:left">ชื่อบัญชี</th><th style="padding:7px 8px;text-align:right">เดบิต</th><th style="padding:7px 8px;text-align:right">เครดิต</th><th style="padding:7px 8px;text-align:right">ยอดคงเหลือ</th></tr></thead><tbody>`;
  if(!tbRows.length){
-  html+=`<tr><td colspan="4" style="text-align:center;padding:14px;color:var(--muted)">ไม่พบข้อมูลบัญชีตามเงื่อนไขที่เลือก</td></tr>`;
+  html+=`<tr><td colspan="5" style="text-align:center;padding:14px;color:var(--muted)">ไม่พบข้อมูลบัญชีตามเงื่อนไขที่เลือก</td></tr>`;
  }else{
-  tbRows.forEach(row=>{
-   html+=`<tr style="border-bottom:1px solid #ffffff10"><td style="padding:7px 8px"><strong>${esc(row.name)}</strong><div class="small" style="color:var(--muted)">${esc(ACCOUNT_TYPES[row.type]||'')} · ยอดยกมา ${money(row.openBal)}</div></td><td style="padding:7px 8px;text-align:right">${row.debit>0?money(row.debit):'—'}</td><td style="padding:7px 8px;text-align:right">${row.credit>0?money(row.credit):'—'}</td><td style="padding:7px 8px;text-align:right;font-weight:600">${money(row.balance)}</td></tr>`;
+  tbRows.forEach(function(row){
+   var _code=_codeOf(row.name);
+   html+=`<tr style="border-bottom:1px solid #ffffff10"><td style="padding:7px 8px;text-align:left">${esc(String(_code||''))}</td><td style="padding:7px 8px;text-align:left"><strong>${esc(row.name)}</strong></td><td style="padding:7px 8px;text-align:right">${_fmtNum(row.debit)}</td><td style="padding:7px 8px;text-align:right">${_fmtNum(row.credit)}</td><td style="padding:7px 8px;text-align:right;font-weight:600">${_fmtNum(row.balance)}</td></tr>`;
   });
  }
- html+=`</tbody><tfoot><tr style="border-top:1px solid var(--line);font-weight:600"><td style="padding:8px">${tbFooterLabel}</td><td style="padding:8px;text-align:right" class="inc">${money(tbFooterDebit)}</td><td style="padding:8px;text-align:right" class="exp">${money(tbFooterCredit)}</td><td style="padding:8px;text-align:right">${Math.abs(tbFooterDebit-tbFooterCredit)<0.0001?'<span class="pill" style="background:#064E3B;color:#6EE7B7">สมดุล ✓</span>':'<span class="pill" style="background:#4C0519;color:#FDA4AF">ไม่สมดุล ✕</span>'}</td></tr></tfoot></table></div>`;
+ html+=`</tbody><tfoot><tr style="border-top:1px solid var(--line);font-weight:600"><td style="padding:8px;text-align:left"></td><td style="padding:8px;text-align:left">${esc(tbFooterLabel)}</td><td style="padding:8px;text-align:right" class="inc">${_fmtNum(tbFooterDebit)}</td><td style="padding:8px;text-align:right" class="exp">${_fmtNum(tbFooterCredit)}</td><td style="padding:8px;text-align:right">${Math.abs(tbFooterDebit-tbFooterCredit)<0.0001?'<span class="pill" style="background:#064E3B;color:#6EE7B7">สมดุล ✓</span>':'<span class="pill" style="background:#4C0519;color:#FDA4AF">ไม่สมดุล ✕</span>'}</td></tr></tfoot></table></div>`;
  html+=`<div class="summaryline" style="margin-top:8px"><span>รวมเดบิตงบทดลอง (ทั้งงวด)</span><strong>${money(tbd)}</strong></div>`;
  html+=`<div class="summaryline" style="margin-top:8px"><span>รวมเครดิตงบทดลอง (ทั้งงวด)</span><strong>${money(tbc)}</strong></div>`;
 
@@ -1456,8 +1591,8 @@ $('debtList').addEventListener('click',e=>{const pay=e.target.closest('[data-deb
 $('goalForm').addEventListener('submit',e=>{e.preventDefault();const name=$('goalName').value.trim(),target=Number($('goalTarget').value),saved=Number($('goalSaved').value)||0,date=$('goalDate').value;if(!name||!(target>0)||saved<0)return;goals.push({id:Date.now(),name,target,saved,date});savePlans();$('goalForm').reset();$('goalSaved').value='0';$('goalMessage').textContent='เพิ่มเป้าหมายแล้ว';renderGoals();renderHomePlan();;try{showToast({message:'เพิ่มเป้าหมายแล้ว',type:'success'})}catch(e){}});
 $('goalList').addEventListener('click',e=>{const add=e.target.closest('[data-goal-add]'),edit=e.target.closest('[data-goal-edit]'),del=e.target.closest('[data-goal-del]');if(add){const g=goals.find(x=>String(x.id)===add.dataset.goalAdd);if(!g)return;const amount=Number(prompt(`ออมแล้ว ${money(g.saved)} จากเป้าหมาย ${money(g.target)}\nเพิ่มเงินออม (บาท)`,'0'));if(!(amount>0))return;g.saved=Number(g.saved)+amount;savePlans();renderGoals();renderHomePlan()}if(edit){const g=goals.find(x=>String(x.id)===edit.dataset.goalEdit);if(!g)return;const name=prompt('ชื่อเป้าหมาย',g.name);if(name===null)return;const targetRaw=prompt('ยอดเป้าหมาย (บาท)',String(g.target));if(targetRaw===null)return;const target=Number(targetRaw);if(!name.trim()||!(target>0))return;const savedRaw=prompt('เงินที่ออมแล้ว (บาท)',String(g.saved));if(savedRaw===null)return;const saved=Number(savedRaw);if(!Number.isFinite(saved)||saved<0)return;g.name=name.trim();g.target=target;g.saved=saved;savePlans();renderGoals();renderHomePlan();try{showToast({message:'แก้ไขเป้าหมายแล้ว',type:'success'})}catch(e){}}if(del){if(!confirm('ลบเป้าหมายนี้ใช่ไหมคะ?'))return;goals=goals.filter(x=>String(x.id)!==del.dataset.goalDel);savePlans();renderGoals();renderHomePlan()}});
 function render(){renderHome();renderHistory();renderReports()}
-function resetForm(){editingId=null;$('form').reset();$('date').value=localDate();$('message').textContent='';$('cancelEdit').hidden=true;setType('Expense');if(typeof clearSlipAttachment==='function' && selectedSlipFile)clearSlipAttachment()}
-function startEdit(id){const t=tx.find(x=>String(x.id)===String(id));if(!t)return;editingId=t.id;navigate('record');setType(t.type);$('amount').value=t.amount;$('title').value=t.title||'';$('note').value=t.note||'';$('date').value=t.date||localDate();if(t.type==='Transfer'){fillSelect('transferFrom',accounts.map(a=>a.name),t.account);fillSelect('transferTo',accounts.map(a=>a.name),t.to)}else{fillSelect('category',catNames(cats[t.type]),t.category);fillSelect('account',accounts.map(a=>a.name),t.account)}$('save').textContent='บันทึกการแก้ไข';$('formHeading').textContent='แก้ไขรายการ';$('cancelEdit').hidden=false}
+function resetForm(){editingId=null;$('form').reset();$('date').value=localDate();{const _dn=$('docNo');if(_dn)_dn.value='';}$('message').textContent='';$('cancelEdit').hidden=true;setType('Expense');if(typeof clearSlipAttachment==='function' && selectedSlipFile)clearSlipAttachment()}
+function startEdit(id){const t=tx.find(x=>String(x.id)===String(id));if(!t)return;editingId=t.id;navigate('record');setType(t.type);$('amount').value=t.amount;$('title').value=t.title||'';$('note').value=t.note||'';{const _dn=$('docNo');if(_dn)_dn.value=String(t&&t.docNo!=null?t.docNo:'');}$('date').value=t.date||localDate();if(t.type==='Transfer'){_fillCoaSelectTypes('transferFrom',['Asset','Liability'],t.account);_fillCoaSelectTypes('transferTo',['Asset','Liability'],t.to)}else if(t.type==='Income'){_fillCoaSelect('account','Asset',t.account);_fillCoaSelect('category','Income',t.category)}else{_fillCoaSelect('account','Asset',t.account);_fillCoaSelect('category','Expense',t.category)}$('save').textContent='บันทึกการแก้ไข';$('formHeading').textContent='แก้ไขรายการ';$('cancelEdit').hidden=false}
 function deleteTx(id){if(!confirm('ต้องการลบรายการนี้ใช่ไหมคะ?'))return;if(window.MyMoneyTxJournal?.hasJournal(id,0)){try{window.MyMoneyTxJournal.reverseTransactionJournal(id,0)}catch(_){}}tx=tx.filter(t=>String(t.id)!==String(id));saveAll();render();try{showToast({message:'ลบรายการแล้ว',type:'success'})}catch(e){};try{showToast({message:'ลบรายการแล้ว',type:'success'})}catch(e){}}
 document.addEventListener('click',e=>{const edit=e.target.closest('[data-edit]'),del=e.target.closest('[data-del]');if(edit)startEdit(edit.dataset.edit);if(del)deleteTx(del.dataset.del)});
 $('cancelEdit').addEventListener('click',resetForm);
@@ -1544,7 +1679,7 @@ $('readSlip').addEventListener('click',async()=>{
 // Double-entry journal is derived from transactions; legacy transaction storage remains unchanged.
 function getJournalEntries(){const je=window.MyMoneyJournal?.getEntries?.()||[];const posted=je.filter(e=>e.status==='Posted');if(posted.length){const coa=window.MyMoneyCOA?window.MyMoneyCOA.get():[];const byId=Object.fromEntries(coa.map(x=>[x.id,x]));const rows=[];posted.forEach(e=>{const dl=e.lines.find(l=>Number(l.debit)>0);const cl=e.lines.find(l=>Number(l.credit)>0);if(!dl||!cl)return;rows.push({date:e.date,title:e.description,debit:(byId[dl.accountId]||{}).name||dl.accountId,credit:(byId[cl.accountId]||{}).name||cl.accountId,amount:Number(dl.debit)||0,sourceId:e.sourceId,debitAccountId:dl.accountId,creditAccountId:cl.accountId})});return rows}const rows=[];tx.forEach(t=>{const amount=Number(t.amount)||0;if(!(amount>0))return;const pay=accounts.find(a=>a.name===t.account)||{accountType:'Asset',name:t.account||'ไม่ระบุบัญชี'};if(t.type==='Transfer'){const dest=accounts.find(a=>a.name===t.to)||{accountType:'Asset',name:t.to||'ไม่ระบุบัญชี'};rows.push({date:t.date,title:t.title,debit:dest.name,credit:pay.name,amount,sourceId:t.id});return;}const category=t.category|| (t.type==='Income'?'รายได้อื่น ๆ':'ค่าใช้จ่ายอื่น ๆ');if(t.type==='Expense'){rows.push({date:t.date,title:t.title,debit:category,credit:pay.name,amount,sourceId:t.id});}else if(t.type==='Income'){rows.push({date:t.date,title:t.title,debit:pay.name,credit:category,amount,sourceId:t.id});}});return rows;}
 function getJournalTotals(){return getJournalEntries().reduce((a,r)=>{a.debit+=r.amount;a.credit+=r.amount;return a;},{debit:0,credit:0});}
-$('form').addEventListener('submit' ,e=>{e.preventDefault();const amount=Number($('amount').value),title=$('title').value.trim();if(!(amount>0)||!title)return;if(editingId===null){const _d=$("date").value;if(tx.some(t=>t.type===type&&Number(t.amount)===amount&&String(t.date||"")===_d&&String(t.title||"").trim()===title)){if(!confirm("พบรายการที่คล้ายกัน (วันที่/จำนวน/ชื่อรายการ เหมือนกัน) ต้องการบันทึกซ้ำไหมคะ?"))return}}let account,to='';if(type==='Transfer'){account=$('transferFrom').value;to=$('transferTo').value;if(account===to){$('message').textContent='บัญชีต้นทางและปลายทางต้องต่างกัน';return}if(!account||!to){$('message').textContent='กรุณาตั้งค่าบัญชีให้ครบก่อน';return}}else account=$('account').value;if(!accounts.some(a=>a.name===account)){$('message').textContent='บัญชีที่เลือกไม่มีอยู่ในระบบ กรุณาเลือกบัญชีใหม่';return}if(type==='Transfer'&&to&&!accounts.some(a=>a.name===to)){$('message').textContent='บัญชีปลายทางไม่มีอยู่ในระบบ กรุณาเลือกบัญชีใหม่';return}const old=editingId===null?null:tx.find(t=>String(t.id)===String(editingId)),record={id:old?old.id:generateTxId(),type,amount,date:$('date').value,title,note:$('note').value.trim(),category:type==='Transfer'?'โอนเงิน':$('category').value,account,to,createdAt:old?.createdAt||new Date().toISOString()};if(editingId!==null&&window.MyMoneyTxJournal?.hasJournal(editingId,0)){try{window.MyMoneyTxJournal.reverseTransactionJournal(editingId,0)}catch(_){}}if(editingId!==null)tx=tx.map(t=>String(t.id)===String(editingId)?record:t);else tx.push(record);const _wasEdit=editingId!==null,_wasTransfer=type==='Transfer';saveAll();render();const _saveMsg=_wasEdit?'แก้ไขรายการสำเร็จ':_wasTransfer?'โอนเงินสำเร็จ':'บันทึกเรียบร้อยแล้ว';$('message').textContent=_saveMsg;try{showToast({message:_saveMsg,type:'success'})}catch(e){}const _jr=window.MyMoneyTxJournal?window.MyMoneyTxJournal.postTransactionToJournal(record.id,0):{ok:false,error:'Journal Engine ไม่พร้อม'};if(!_jr.ok){try{showToast({message:'บันทึกบัญชีไม่สำเร็จ: '+_jr.error,type:'error'})}catch(e){}alert('บันทึกรายการแล้ว แต่ลงบันทึกบัญชีไม่สำเร็จ: '+_jr.error)}else{resetForm();}});
+$('form').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('amount').value),title=$('title').value.trim();if(!(amount>0)||!title)return;if(editingId===null){const _d=$("date").value;if(tx.some(t=>t.type===type&&Number(t.amount)===amount&&String(t.date||"")===_d&&String(t.title||"").trim()===title)){if(!confirm("พบรายการที่คล้ายกัน (วันที่/จำนวน/ชื่อรายการ เหมือนกัน) ต้องการบันทึกซ้ำไหมคะ?"))return}}let account='',to='',resolved={};const _selName=id=>{const el=$(id);return el?(el.options[el.selectedIndex]?el.options[el.selectedIndex].textContent.trim():String(el.value||'')).replace(/ \(เดิม\/ไม่พบใน COA\)$/,''):''};if(type==='Transfer'){const fromVal=$('transferFrom').value,toVal=$('transferTo').value;const fromId=_resolveCoaIdFromSelectValue(fromVal),toId=_resolveCoaIdFromSelectValue(toVal);account=fromId?_coaNameById(fromId):_selName('transferFrom');to=toId?_coaNameById(toId):_selName('transferTo');if(!fromId||!toId){$('message').textContent='กรุณาเลือกบัญชีต้นทาง/ปลายทางจากผังบัญชี (COA) — ระบบไม่เดาบัญชี';return}if(String(fromId)===String(toId)){$('message').textContent='บัญชีต้นทางและปลายทางต้องต่างกัน';return}resolved={accountId:fromId,toAccountId:toId}}else{const accVal=$('account').value,catVal=$('category').value;const accId=_resolveCoaIdFromSelectValue(accVal),catId=_resolveCoaIdFromSelectValue(catVal);account=accId?_coaNameById(accId):_selName('account');const categoryName=catId?_coaNameById(catId):_selName('category');if(!accId){$('message').textContent='กรุณาเลือกบัญชีจากผังบัญชี (COA) — ระบบไม่เดาบัญชี';return}if(!catId){$('message').textContent='กรุณาเลือกหมวดหมู่จากผังบัญชี (COA) — ระบบไม่เดาบัญชี';return}resolved={accountId:accId,categoryAccountId:catId};var _catNameForRecord=categoryName}const _docNo=(($('docNo')&&$('docNo').value)||'').trim();const old=editingId===null?null:tx.find(t=>String(t.id)===String(editingId)),record={id:old?old.id:generateTxId(),type,amount,date:$('date').value,title,note:$('note').value.trim(),docNo:_docNo,category:type==='Transfer'?'โอนเงิน':(typeof _catNameForRecord!=='undefined'?_catNameForRecord:($('category').options[$('category').selectedIndex]||{}).textContent||''),account,to,createdAt:old?.createdAt||new Date().toISOString()};if(editingId!==null&&window.MyMoneyTxJournal?.hasJournal(editingId,0)){try{window.MyMoneyTxJournal.reverseTransactionJournal(editingId,0)}catch(_){}}if(editingId!==null)tx=tx.map(t=>String(t.id)===String(editingId)?record:t);else tx.push(record);const _wasEdit=editingId!==null,_wasTransfer=type==='Transfer';saveAll();render();const _saveMsg=_wasEdit?'แก้ไขรายการสำเร็จ':_wasTransfer?'โอนเงินสำเร็จ':'บันทึกเรียบร้อยแล้ว';$('message').textContent=_saveMsg;try{showToast({message:_saveMsg,type:'success'})}catch(e){}const _jr=window.MyMoneyTxJournal?window.MyMoneyTxJournal.postTransactionToJournal(record.id,0,resolved):{ok:false,error:'Journal Engine ไม่พร้อม'};if(!_jr.ok){try{showToast({message:'บันทึกบัญชีไม่สำเร็จ: '+_jr.error,type:'error'})}catch(e){}alert('บันทึกรายการแล้ว แต่ลงบันทึกบัญชีไม่สำเร็จ: '+_jr.error)}else{resetForm();}});
 
 $('historyFilterToggle').addEventListener('click',()=>{const expanded=$('historyFilterToggle').getAttribute('aria-expanded')==='true';$('historyFilterToggle').setAttribute('aria-expanded',String(!expanded));$('historyFilterPanel').hidden=expanded;});$('historyLimit').addEventListener('change',renderHistory);$('search').addEventListener('input',renderHistory);$('filter').addEventListener('change',renderHistory);$('historyMonth').addEventListener('change',()=>{if($('historyMonth').value){$('historyFrom').value='';$('historyTo').value=''}renderHistory()});$('historyFrom').addEventListener('change',()=>{if($('historyFrom').value)$('historyMonth').value='';renderHistory()});$('historyTo').addEventListener('change',()=>{if($('historyTo').value)$('historyMonth').value='';renderHistory()});document.querySelectorAll('[data-date-range]').forEach(btn=>btn.addEventListener('click',()=>{const now=new Date(),fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;let from,to=fmt(now);if(btn.dataset.dateRange==='today')from=to;else if(btn.dataset.dateRange==='7days'){const d=new Date(now);d.setDate(d.getDate()-6);from=fmt(d)}else if(btn.dataset.dateRange==='month')from=fmt(new Date(now.getFullYear(),now.getMonth(),1));else{from=fmt(new Date(now.getFullYear(),now.getMonth()-1,1));to=fmt(new Date(now.getFullYear(),now.getMonth(),0))}$('historyMonth').value='';$('historyFrom').value=from;$('historyTo').value=to;$('filter').value='Expense';renderHistory()}));$('clearFilters').addEventListener('click',()=>{$('search').value='';$('filter').value='All';$('historyMonth').value='';$('historyFrom').value='';$('historyTo').value='';renderHistory()});$('reportMonth').addEventListener('change',renderReports);
 function renderSettings(){const _accUsage=accounts.map((a,i)=>({a,i,count:tx.reduce((n,t)=>n+((t.account===a.name||t.to===a.name)?1:0),0)}));_accUsage.sort((x,y)=>y.count-x.count||x.i-y.i);$('accountSettings').innerHTML=_accUsage.map(u=>{const a=u.a,i=u.i;return `<div class="settings-row"><div class="grow"><strong>${esc(a.name)}</strong><div class="small">ประเภทบัญชี: ${ACCOUNT_TYPES[a.accountType]||'สินทรัพย์'} · ยอดตั้งต้น (บาท)</div></div><input type="number" step="0.01" data-opening="${i}" value="${Number(a.opening)||0}" aria-label="ยอดตั้งต้น ${esc(a.name)}"><button class="btn secondary" data-edit-account="${i}" aria-label="แก้ไขบัญชี">แก้ไข</button><button class="btn danger" data-remove-account="${i}" aria-label="ลบบัญชี">ลบ</button></div>`}).join('')||emptyHTML('ยังไม่มีบัญชี');renderCategorySettings()}
@@ -1573,7 +1708,7 @@ const __i18nObserver=new MutationObserver(muts=>{if(appLang!=='en')return;for(co
 __i18nObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
   const splash=document.getElementById('splashScreen');
   const hideSplash=()=>{if(!splash||splash.classList.contains('splash-hide'))return;splash.classList.add('splash-hide');setTimeout(()=>splash.remove(),650);};
-  setTimeout(hideSplash,Math.max(300,900-(Date.now()-splashShownAt)));
+  setTimeout(hideSplash,Math.max(300,900-(Date.now()-(splashShownAt||Date.now()))));
   setTimeout(()=>{try{hideSplash();}catch(e){console.error('hideSplash error:',e);const sp=document.getElementById('splashScreen');if(sp)sp.remove();}},3000);
 
 
@@ -1791,7 +1926,9 @@ const isMapped=s=>!!(s.rid&&links.map[s.rid]&&canMapTo(links.map[s.rid]));
 const isVerified=s=>!!(s.rid&&links.map[s.rid]&&canMapTo(links.map[s.rid])&&(links.registry.find(r=>r.rid===s.rid)||{}).status===MAP_STATUS.Verified);
 function clearLink(rid){if(locked)return{ok:false,error:lockMsg};delete links.map[rid];const e=links.registry.find(r=>r.rid===rid);if(e)e.status=MAP_STATUS.Unmapped;saveLinks();return{ok:true}}
 const unmapped=()=>sync().filter(s=>!isMapped(s));
-window.MyMoneyCOA={get:()=>coa,links:()=>links,validate:(o,id)=>check(build(o,id?get(id):null),id?get(id):null),addAccount,updateAccount,deactivate,activate,addCreditCard,setLink,clearLink,verifyLink,unverifyLink,canPost,canMapTo,isVerified,unmapped,sources:sync,integrity:()=>integrity(coa),isLocked:()=>locked,nextCode,status:(rid)=>(links.registry.find(r=>r.rid===rid)||{}).status||MAP_STATUS.Unmapped};
+function getCoaAccountsByType(type){if(!type)return[];return coa.filter(x=>x&&x.type===type&&canPost(x.id)).sort((a,b)=>String(a.code||'').localeCompare(String(b.code||'')))}
+function getPostableCoaByTypes(types){const set=new Set([].concat(types||[]));return coa.filter(x=>x&&set.has(x.type)&&canPost(x.id)).sort((a,b)=>String(a.code||'').localeCompare(String(b.code||'')))}
+window.MyMoneyCOA={get:()=>coa,links:()=>links,validate:(o,id)=>check(build(o,id?get(id):null),id?get(id):null),addAccount,updateAccount,deactivate,activate,addCreditCard,setLink,clearLink,verifyLink,unverifyLink,canPost,canMapTo,isVerified,unmapped,sources:sync,integrity:()=>integrity(coa),isLocked:()=>locked,nextCode,status:(rid)=>(links.registry.find(r=>r.rid===rid)||{}).status||MAP_STATUS.Unmapped,getCoaAccountsByType,getPostableCoaByTypes};
 window.coaRenameSource=renameSource;
 /* ---------- UI ---------- */
 const $$=id=>document.getElementById(id);
@@ -1884,7 +2021,8 @@ function validateLines(lines){
   if(debit!==credit)return{ok:false,error:'Debit และ Credit ไม่สมดุล (Debit:'+debit/100+' Credit:'+credit/100+')'};
   return{ok:true,debit:debit/100,credit:credit/100};
 }
-function createDraft(lines,description,sourceType,sourceId){
+function _jrnlDate(d,fallback){try{const s=String(d==null?'':d).trim();if(/^\d{4}-\d{2}-\d{2}$/.test(s)){const y=+s.slice(0,4),m=+s.slice(5,7),dd=+s.slice(8,10);const dt=new Date(Date.UTC(y,m-1,dd));if(dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===dd)return s}}catch(_){}return fallback}
+function createDraft(lines,description,sourceType,sourceId,entryDate){
   if(jlocked)return{ok:false,error:jlockMsg};
   const v=validateLines(lines);
   if(!v.ok)return v;
@@ -1895,7 +2033,7 @@ function createDraft(lines,description,sourceType,sourceId){
     if(dup)return{ok:false,error:'พบ Journal Entry ซ้ำจากแหล่งข้อมูลนี้แล้ว ('+st+' #'+sid+') ไม่สามารถสร้างใหม่ได้'};
   }
   const now=new Date().toISOString();
-  const entry={id:uuid(),entryNumber:journal.nextNumber++,date:now.slice(0,10),description:description||'',sourceType:st,sourceId:sid,status:'Draft',lines:lines.map(l=>({id:uuid(),accountId:l.accountId,debit:Number(l.debit)||0,credit:Number(l.credit)||0,description:l.description||''})),createdAt:now,updatedAt:now,postedAt:null,reversedEntryId:null};
+  const entry={id:uuid(),entryNumber:journal.nextNumber++,date:_jrnlDate(entryDate,now.slice(0,10)),description:description||'',sourceType:st,sourceId:sid,status:'Draft',lines:lines.map(l=>({id:uuid(),accountId:l.accountId,debit:Number(l.debit)||0,credit:Number(l.credit)||0,description:l.description||''})),createdAt:now,updatedAt:now,postedAt:null,reversedEntryId:null};
   journal.entries.push(entry);saveJournal();return{ok:true,entry};
 }
 const _postingLocks=new Set();
@@ -2008,41 +2146,63 @@ function addLink(txId,journalEntryId,revision,sourceType){if(txjlocked)return{ok
 function getCOA(){return window.MyMoneyCOA?window.MyMoneyCOA.get():[]}
 function getAccount(id){const coa=getCOA();return coa.find(x=>x.id===id)}
 function canPostAccount(id){return window.MyMoneyCOA?window.MyMoneyCOA.canPost(id):false}
-function mapSourceToCOA(kind,name){if(!window.MyMoneyCOA)return null;const src=window.MyMoneyCOA.sources().find(s=>s.kind===kind&&s.name===name);if(!src||!src.rid)return null;const coaId=window.MyMoneyCOA.links().map[src.rid];if(!coaId||!canPostAccount(coaId))return null;return coaId}
-function buildJournalLines(tx){
-  const lines=[];
-  const amt=Number(tx.amount)||0;
+function _normName(v){return String(v==null?'':v).replace(/\s+/g,' ').trim()}
+function _resolveCoaByName(name,type,field){
+  const n=_normName(name);
+  if(!n)return{ok:false,error:field+' ว่างเปล่า: ไม่สามารถระบุบัญชี COA ได้ (กรุณาเลือกบัญชีจากผังบัญชี)'};
+  const list=getCOA().filter(x=>x&&x.type===type&&canPostAccount(x.id)&&_normName(x.name)===n);
+  if(list.length===1)return{ok:true,id:list[0].id,acc:list[0]};
+  if(list.length>1)return{ok:false,error:'พบชื่อบัญชี COA ซ้ำ ('+field+': "'+n+'", ประเภท '+type+') จำนวน '+list.length+' รายการ — ห้ามเดา กรุณาแก้ชื่อให้ไม่ซ้ำหรือเลือกบัญชีให้ชัดเจน'};
+  return{ok:false,error:'ไม่พบบัญชี COA ที่ตรงและ Post ได้ ('+field+': "'+n+'", ประเภท '+type+') — รายการเก่าอาจไม่ตรงผังบัญชี กรุณาแก้ไขรายการให้เลือกบัญชีจากผังบัญชี; ระบบไม่เดาบัญชี'};
+}
+function _resolveCoaById(id,expectTypes,field){
+  const sid=id==null?'':String(id).trim();
+  if(!sid)return{ok:false,error:field+' ไม่ได้ระบุ COA ID'};
+  const a=getAccount(sid);
+  if(!a)return{ok:false,error:'ไม่พบบัญชี COA ('+field+': '+sid+')'};
+  if(!canPostAccount(sid))return{ok:false,error:'บัญชี COA ไม่สามารถลงบันทึกได้ ('+field+': '+(a.code?String(a.code)+' ':'')+_normName(a.name)+') — ต้องเป็น Active, Postable, ไม่ใช่ Header/template/opening'};
+  const types=expectTypes?[].concat(expectTypes):null;
+  if(types&&types.length&&!types.includes(a.type))return{ok:false,error:'ประเภทบัญชี COA ไม่ตรงหน้าที่ ('+field+': '+(a.code?String(a.code)+' ':'')+_normName(a.name)+' เป็น '+a.type+' แต่ต้องเป็น '+types.join('/')+')'};
+  return{ok:true,id:a.id,acc:a};
+}
+function _pickIdFromResolved(resolved,keys){if(!resolved)return null;for(const k of [].concat(keys||[])){const v=resolved[k];if(v!=null&&String(v).trim()!=='')return String(v).trim()}return null}
+function buildJournalLines(tx,resolved){
+  const lines=[]; const amt=Number(tx&&tx.amount)||0; const title=(tx&&tx.title)||'';
+  if(!tx||!tx.type)return{ok:false,error:'ไม่รู้จักประเภท Transaction'};
+  const need=(idKeys,expectTypes,name,type,field)=>{const rid=_pickIdFromResolved(resolved,idKeys);return rid?_resolveCoaById(rid,expectTypes,field+'(COA ID)'):_resolveCoaByName(name,type,field)};
   if(tx.type==='Income'){
-    const acc=mapSourceToCOA('account',tx.account||'');
-    const cat=mapSourceToCOA('Income',tx.category||'');
-    if(!acc||!cat)return{ok:false,error:'ไม่พบ Mapping สำหรับบัญชีหรือcategories รายรับ'};
-    lines.push({accountId:acc,debit:amt,credit:0,description:tx.title||''});
-    lines.push({accountId:cat,debit:0,credit:amt,description:tx.title||''});
+    const dr=need(['accountId','assetAccountId','paymentAccountId'],['Asset'],tx.account,'Asset','บัญชีรับเงิน (Asset)'); if(!dr.ok)return dr;
+    const cr=need(['categoryAccountId','incomeAccountId'],['Income'],tx.category,'Income','หมวดรายรับ (Income)'); if(!cr.ok)return cr;
+    lines.push({accountId:dr.id,debit:amt,credit:0,description:title}); lines.push({accountId:cr.id,debit:0,credit:amt,description:title});
   }else if(tx.type==='Expense'){
-    const acc=mapSourceToCOA('account',tx.account||'');
-    const cat=mapSourceToCOA('Expense',tx.category||'');
-    if(!acc||!cat)return{ok:false,error:'ไม่พบ Mapping สำหรับบัญชีหรือcategories 详情จ่าย'};
-    lines.push({accountId:cat,debit:amt,credit:0,description:tx.title||''});
-    lines.push({accountId:acc,debit:0,credit:amt,description:tx.title||''});
+    const dr=need(['categoryAccountId','expenseAccountId'],['Expense'],tx.category,'Expense','หมวดรายจ่าย (Expense)'); if(!dr.ok)return dr;
+    const cr=need(['accountId','assetAccountId','paymentAccountId'],['Asset'],tx.account,'Asset','บัญชีจ่ายเงิน (Asset)'); if(!cr.ok)return cr;
+    lines.push({accountId:dr.id,debit:amt,credit:0,description:title}); lines.push({accountId:cr.id,debit:0,credit:amt,description:title});
   }else if(tx.type==='Transfer'){
-    const from=mapSourceToCOA('account',tx.account||'');
-    const to=mapSourceToCOA('account',tx.to||'');
-    if(!from||!to)return{ok:false,error:'ไม่พบ Mapping สำหรับบัญชีต้นทางหรือปลายทาง'};
-    lines.push({accountId:to,debit:amt,credit:0,description:tx.title||('โอนจาก '+tx.account+' ไป '+tx.to)});
-    lines.push({accountId:from,debit:0,credit:amt,description:tx.title||('โอนจาก '+tx.account+' ไป '+tx.to)});
+    let fromR,toR;
+    const fromId=_pickIdFromResolved(resolved,['accountId','fromAccountId','sourceAccountId']);
+    if(fromId){fromR=_resolveCoaById(fromId,['Asset','Liability'],'บัญชีต้นทาง(COA ID)')}else{const n=_normName(tx.account);const cands=getCOA().filter(x=>x&&(x.type==='Asset'||x.type==='Liability')&&canPostAccount(x.id)&&_normName(x.name)===n);if(cands.length===1)fromR={ok:true,id:cands[0].id,acc:cands[0]};else if(cands.length>1)fromR={ok:false,error:'พบบัญชี COA ตรงชื่อซ้ำ (บัญชีต้นทาง: "'+n+'") — ห้ามเดา'};else fromR={ok:false,error:'ไม่พบบัญชี COA ที่ตรงและ Post ได้ (บัญชีต้นทาง: "'+n+'") — กรุณาแก้ไขรายการให้เลือกบัญชีจากผังบัญชี'};}
+    if(!fromR.ok)return fromR;
+    const toId=_pickIdFromResolved(resolved,['toAccountId','destinationAccountId','toId']);
+    if(toId){toR=_resolveCoaById(toId,['Asset','Liability'],'บัญชีปลายทาง(COA ID)')}else{const n=_normName(tx.to);const cands=getCOA().filter(x=>x&&(x.type==='Asset'||x.type==='Liability')&&canPostAccount(x.id)&&_normName(x.name)===n);if(cands.length===1)toR={ok:true,id:cands[0].id,acc:cands[0]};else if(cands.length>1)toR={ok:false,error:'พบบัญชี COA ตรงชื่อซ้ำ (บัญชีปลายทาง: "'+n+'") — ห้ามเดา'};else toR={ok:false,error:'ไม่พบบัญชี COA ที่ตรงและ Post ได้ (บัญชีปลายทาง: "'+n+'") — กรุณาแก้ไขรายการให้เลือกบัญชีจากผังบัญชี'};}
+    if(!toR.ok)return toR;
+    if(String(fromR.id)===String(toR.id))return{ok:false,error:'บัญชีต้นทางและปลายทางต้องเป็นบัญชี COA คนละบัญชี'};
+    const desc=title||('โอนจาก '+_normName(tx.account)+' ไป '+_normName(tx.to));
+    lines.push({accountId:toR.id,debit:amt,credit:0,description:desc}); lines.push({accountId:fromR.id,debit:0,credit:amt,description:desc});
   }else return{ok:false,error:'ไม่รู้จักประเภท Transaction'};
+  if(window.MyMoneyJournal&&window.MyMoneyJournal.validate){const v=window.MyMoneyJournal.validate(lines); if(v&&!v.ok)return{ok:false,error:v.error||'Journal lines ไม่ถูกต้อง'};}
   return{ok:true,lines};
 }
-function postTransactionToJournal(txId,revision){
+function postTransactionToJournal(txId,revision,resolved){
   if(txjlocked)return{ok:false,error:txjlockMsg};
   if(!window.MyMoneyJournal)return{ok:false,error:'Journal Engine ไม่พร้อม'};
 const foundTx=(window.getTx?window.getTx():[]).find(t=>String(t.id)===String(txId));
 if(!foundTx)return{ok:false,error:'ไม่พบ Transaction'};
   const dup=findLink(txId,revision||0);
   if(dup&&dup.journalEntryId)return{ok:false,error:'Transaction นี้มี Journal แล้วใน Revision นี้'};
-  const bl=buildJournalLines(foundTx);
+  const bl=buildJournalLines(foundTx,resolved);
   if(!bl.ok)return{ok:false,error:bl.error};
-  const draft=window.MyMoneyJournal.createDraft(bl.lines,foundTx.title||'','Transaction',txId);
+  const draft=window.MyMoneyJournal.createDraft(bl.lines,foundTx.title||'','Transaction',txId,foundTx.date);
   if(!draft.ok)return{ok:false,error:draft.error};
   const posted=window.MyMoneyJournal.postEntry(draft.entry.id);
   if(!posted.ok)return{ok:false,error:posted.error};
@@ -2296,7 +2456,8 @@ document.addEventListener('click', function(e) {
       description: r.querySelector('.mj-desc').value.trim()
     }));
     const desc = (document.getElementById('mjDescription')?.value?.trim() || 'Manual Journal');
-    const draft = window.MyMoneyJournal ? window.MyMoneyJournal.createDraft(lines, desc, 'Manual', 'manual_' + Date.now()) : { ok: false, error: 'Journal Engine unavailable' };
+    const mjDate = document.getElementById('mjDate')?.value;
+    const draft = window.MyMoneyJournal ? window.MyMoneyJournal.createDraft(lines, desc, 'Manual', 'manual_' + Date.now(), mjDate) : { ok: false, error: 'Journal Engine unavailable' };
     if (draft && draft.ok) {
       if (msg) msg.textContent = 'บันทึก Draft สำเร็จ: ' + draft.entry.id;
       mjRefreshDrafts();
@@ -2322,11 +2483,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="erpOverlayProto" style="position:fixed;inset:0;background:#0008;z-index:9998;display:none"></div>
 <div id="erpSidebarProto" style="position:fixed;left:0;top:0;width:240px;height:100vh;background:#0f172a;color:#e2e8f0;padding:14px 12px;z-index:9999;transform:translateX(-100%);transition:transform .25s ease;font-family:system-ui,sans-serif;font-size:13px;box-shadow:2px 0 12px #0008;overflow:auto;border-right:1px solid #1f2937">
 <div class="brand" style="margin:0 0 16px 0;padding-top:4px"><img class="brand-icon" src="mymoney-icon.png" alt="MyMoney"><div class="brand-copy"><p class="eyebrow">PERSONAL FINANCE</p><h1>MyMoney</h1></div></div>
-<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">ภาพรวม</summary><div class="item active" onclick="navigate('home');setOpen(false)">🏠 แดชบอร์ด</div></details>
-<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">บันทึกรายการ</summary><div class="item" onclick="navigate('record');setType('Income');setOpen(false)">📈 รายได้</div><div class="item" onclick="navigate('record');setType('Expense');setOpen(false)">📉 ค่าใช้จ่าย</div><div class="item" onclick="navigate('record');setType('Transfer');setOpen(false)">🔁 โอนเงิน</div><div class="item" onclick="navigate('journal');setOpen(false)">🧾 บันทึกบัญชี (Manual Journal)</div></details>
-<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">บัญชี</summary><div class="item" onclick="navigate('journal');setOpen(false)">📒 สมุดรายวันทั่วไป</div><div class="item" onclick="navigate('coa');setOpen(false)">📒 ผังบัญชี (COA)</div><div class="item" onclick="navigate('gl');setOpen(false)">📒 บัญชีแยกประเภท</div></details>
-<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">รายงาน</summary><div class="item" onclick="navigate('tb');setOpen(false)">📊 งบทดลอง</div><div class="item" onclick="navigate('is');setOpen(false)">📊 งบกำไรขาดทุน</div><div class="item" onclick="navigate('financial');setOpen(false)">📊 งบแสดงฐานะการเงิน</div><div class="item" onclick="navigate('reports');setOpen(false)">📊 รายงานการเงินอื่น ๆ</div></details>
-<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">ตั้งค่า</summary><div class="item" onclick="navigate('settings');setOpen(false)">⚙️ บัญชีเงินสดและธนาคาร</div><div class="item" onclick="navigate('settings');setOpen(false)">⚙️ หมวดหมู่</div><div class="item" onclick="navigate('budget');setOpen(false)">⚙️ งบประมาณ</div><div class="item" onclick="navigate('bills');setOpen(false)">⚙️ รายการประจำ</div><div class="item" onclick="navigate('debts');setOpen(false)">⚙️ หนี้สิน</div><div class="item" onclick="navigate('goals');setOpen(false)">⚙️ เป้าหมายการออม</div><div class="item" onclick="navigate('settings');setOpen(false)">⚙️ ตั้งค่าระบบ</div></details>
+<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">ภาพรวม</summary><div class="item active" data-nav-go="home" onclick="navigate('home');setOpen(false)">🏠 แดชบอร์ด</div></details>
+<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">บันทึกรายการ</summary><div class="item" data-nav-go="record" data-nav-mode="Income" onclick="if(window.openRecordType)openRecordType('Income');else{navigate('record');setType('Income')}setOpen(false)">📈 รายได้</div><div class="item" data-nav-go="record" data-nav-mode="Expense" onclick="if(window.openRecordType)openRecordType('Expense');else{navigate('record');setType('Expense')}setOpen(false)">📉 ค่าใช้จ่าย</div><div class="item" data-nav-go="record" data-nav-mode="Transfer" onclick="if(window.openRecordType)openRecordType('Transfer');else{navigate('record');setType('Transfer')}setOpen(false)">🔁 โอนเงิน</div><div class="item" data-nav-go="record" data-nav-mode="Manual" onclick="navigate('record');if(window.setRecordMode)setRecordMode('Manual');setOpen(false)">🧾 บันทึกบัญชี (Manual Journal)</div></details>
+<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">บัญชี</summary><div class="item" data-nav-go="journal" onclick="navigate('journal');setOpen(false)">📒 สมุดรายวันทั่วไป</div><div class="item" data-nav-go="coa" onclick="navigate('coa');setOpen(false)">📒 ผังบัญชี (COA)</div><div class="item" data-nav-go="gl" onclick="navigate('gl');setOpen(false)">📒 บัญชีแยกประเภท</div></details>
+<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">รายงาน</summary><div class="item" data-nav-go="tb" onclick="navigate('tb');setOpen(false)">📊 งบทดลอง</div><div class="item" data-nav-go="is" onclick="navigate('is');setOpen(false)">📊 งบกำไรขาดทุน</div><div class="item" data-nav-go="financial" onclick="navigate('financial');setOpen(false)">📊 งบแสดงฐานะการเงิน</div><div class="item" data-nav-go="reports" onclick="navigate('reports');setOpen(false)">📊 รายงานการเงินอื่น ๆ</div></details>
+<details open><summary style="color:#34d399;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px;cursor:pointer">ตั้งค่า</summary><div class="item" data-nav-go="settings" onclick="navigate('settings');setOpen(false)">⚙️ บัญชีเงินสดและธนาคาร</div><div class="item" data-nav-go="settings" onclick="navigate('settings');setOpen(false)">⚙️ หมวดหมู่</div><div class="item" data-nav-go="budget" onclick="navigate('budget');setOpen(false)">⚙️ งบประมาณ</div><div class="item" data-nav-go="bills" onclick="navigate('bills');setOpen(false)">⚙️ รายการประจำ</div><div class="item" data-nav-go="debts" onclick="navigate('debts');setOpen(false)">⚙️ หนี้สิน</div><div class="item" data-nav-go="goals" onclick="navigate('goals');setOpen(false)">⚙️ เป้าหมายการออม</div><div class="item" data-nav-go="settings" onclick="navigate('settings');setOpen(false)">⚙️ ตั้งค่าระบบ</div></details>
 </div>
 <style>
 #erpSidebarProto{width:min(85vw,320px)!important;padding-top:max(14px,env(safe-area-inset-top));padding-bottom:max(14px,env(safe-area-inset-bottom));overflow-y:auto}
