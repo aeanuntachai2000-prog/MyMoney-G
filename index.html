@@ -918,6 +918,71 @@ body.dark-mode #page-journal .mig-table th,body.dark-mode #page-journal .mig-tab
   #journalListMount .jrnl-scroll { display: block; }
 }
 
+/* Trial Balance page - match Journal page layout */
+#page-tb .coa-card,
+#page-tb .tb-card-section { background: transparent !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; }
+#page-tb .tb-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; background: transparent; }
+#page-tb .tb-table { width: 100%; table-layout: fixed; min-width: 760px; border-collapse: separate; border-spacing: 0; font-size: 13px; line-height: 1.4; }
+#page-tb .tb-table th, #page-tb .tb-table td { padding: 10px 12px; vertical-align: middle; border-bottom: 1px solid rgba(148,163,184,.22); }
+#page-tb .tb-table thead th { position: sticky; top: 0; z-index: 1; background: rgba(26,32,40,.98); color: #f8fafc; font-weight: 600; font-size: 12px; letter-spacing: .01em; border-bottom: 2px solid rgba(148,163,184,.45); white-space: nowrap; }
+#page-tb .tb-table tbody tr { background: transparent; }
+#page-tb .tb-table tbody tr:hover td { background: rgba(148,163,184,.09); }
+#page-tb .tb-th-code, #page-tb .tb-td-code { text-align: left; }
+#page-tb .tb-th-name, #page-tb .tb-td-name { text-align: left; }
+#page-tb .tb-th-num, #page-tb .tb-td-num { text-align: right; }
+#page-tb .tb-td-balance { font-weight: 600; }
+#page-tb .tb-empty { text-align: center; padding: 14px; color: var(--muted); }
+#page-tb .tb-table tfoot tr { border-top: 1px solid var(--line); font-weight: 600; }
+#page-tb .tb-table tfoot td { padding: 8px 12px; }
+
+/* Trial Balance Mobile Card Layout */
+@media (max-width: 768px) {
+  #page-tb .tb-scroll { display: none; }
+  #page-tb .tb-cards { display: flex; flex-direction: column; gap: 8px; }
+  #page-tb .tb-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  #page-tb .tb-card-head {
+    margin-bottom: 6px;
+  }
+  #page-tb .tb-card-acct {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  #page-tb .tb-card-code {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: monospace;
+    background: var(--panel2);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  #page-tb .tb-card-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  #page-tb .tb-card-amounts {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    flex-wrap: wrap;
+  }
+  #page-tb .tb-card-debit { color: var(--red); }
+  #page-tb .tb-card-credit { color: var(--green); }
+  #page-tb .tb-card-balance { color: var(--ink); }
+}
+@media (min-width: 769px) {
+  #page-tb .tb-cards { display: none; }
+  #page-tb .tb-scroll { display: block; }
+}
+
 /* General Ledger Mobile Card Layout */
 @media (max-width: 768px) {
   #page-gl .gl-table-scroll { display: none; }
@@ -1662,17 +1727,22 @@ if(!(el&&el.id==='accountingReportsTb'))html+='<div class="report-tabs" style="d
  const tbFooterDebit=qTb?dispTbDebit:tbd;const tbFooterCredit=qTb?dispTbCredit:tbc;
  const _coaTb=(window.MyMoneyCOA&&window.MyMoneyCOA.get)?window.MyMoneyCOA.get():[];
  const _codeOf=function(n){var a=_coaTb.find(function(c){return c&&c.name===n})||accounts.find(function(a){return a&&a.name===n});return (a&&(a.code!=null?a.code:(a.coaCode!=null?a.coaCode:'')))||''};
- const _fmtNum=function(v){return Number(v||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})};
- html+=`<div style="overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch"><table style="width:100%;min-width:520px;font-size:12px;border-collapse:collapse;white-space:nowrap"><thead><tr style="border-bottom:1px solid var(--line);color:var(--muted)"><th style="padding:7px 8px;text-align:left">เลขที่บัญชี</th><th style="padding:7px 8px;text-align:left">ชื่อบัญชี</th><th style="padding:7px 8px;text-align:right">เดบิต</th><th style="padding:7px 8px;text-align:right">เครดิต</th><th style="padding:7px 8px;text-align:right">ยอดคงเหลือ</th></tr></thead><tbody>`;
- if(!tbRows.length){
-  html+=`<tr><td colspan="5" style="text-align:center;padding:14px;color:var(--muted)">ไม่พบข้อมูลบัญชีตามเงื่อนไขที่เลือก</td></tr>`;
- }else{
-  tbRows.forEach(function(row){
-   var _code=_codeOf(row.name);
-   html+=`<tr style="border-bottom:1px solid #ffffff10"><td style="padding:7px 8px;text-align:left">${esc(String(_code||''))}</td><td style="padding:7px 8px;text-align:left"><strong>${esc(row.name)}</strong></td><td style="padding:7px 8px;text-align:right">${_fmtNum(row.debit)}</td><td style="padding:7px 8px;text-align:right">${_fmtNum(row.credit)}</td><td style="padding:7px 8px;text-align:right;font-weight:600">${_fmtNum(row.balance)}</td></tr>`;
-  });
- }
- html+=`</tbody><tfoot><tr style="border-top:1px solid var(--line);font-weight:600"><td style="padding:8px;text-align:left"></td><td style="padding:8px;text-align:left">${esc(tbFooterLabel)}</td><td style="padding:8px;text-align:right" class="inc">${_fmtNum(tbFooterDebit)}</td><td style="padding:8px;text-align:right" class="exp">${_fmtNum(tbFooterCredit)}</td><td style="padding:8px;text-align:right">${Math.abs(tbFooterDebit-tbFooterCredit)<0.0001?'<span class="pill" style="background:#064E3B;color:#6EE7B7">สมดุล ✓</span>':'<span class="pill" style="background:#4C0519;color:#FDA4AF">ไม่สมดุล ✕</span>'}</td></tr></tfoot></table></div>`;
+const _fmtNum=function(v){return Number(v||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})};
+  /* Build mobile card layout for Trial Balance (similar to Journal) */
+  const tbCards=tbRows.map(function(row){
+    var _code=_codeOf(row.name);
+    return `<article class="tb-card"><header class="tb-card-head"><div class="tb-card-acct"><span class="tb-card-code">${esc(String(_code||''))}</span><span class="tb-card-name">${esc(row.name)}</span></div></header><div class="tb-card-amounts"><span class="tb-card-debit">${_fmtNum(row.debit)}</span><span class="tb-card-credit">${_fmtNum(row.credit)}</span><span class="tb-card-balance">${_fmtNum(row.balance)}</span></div></article>`;
+  }).join('');
+  html+=`<section class="coa-card tb-card-section"><div class="tb-scroll"><table class="tb-table"><colgroup><col style="min-width:80px;width:80px"><col><col style="min-width:110px;width:110px"><col style="min-width:110px;width:110px"><col style="min-width:110px;width:110px"></colgroup><thead><tr><th class="tb-th-code">เลขที่บัญชี</th><th class="tb-th-name">ชื่อบัญชี</th><th class="tb-th-num">เดบิต</th><th class="tb-th-num">เครดิต</th><th class="tb-th-num">ยอดคงเหลือ</th></tr></thead><tbody>`;
+  if(!tbRows.length){
+   html+=`<tr><td colspan="5" class="tb-empty">ไม่พบข้อมูลบัญชีตามเงื่อนไขที่เลือก</td></tr>`;
+  }else{
+   tbRows.forEach(function(row){
+    var _code=_codeOf(row.name);
+    html+=`<tr><td class="tb-td-code">${esc(String(_code||''))}</td><td class="tb-td-name"><strong>${esc(row.name)}</strong></td><td class="tb-td-num">${_fmtNum(row.debit)}</td><td class="tb-td-num">${_fmtNum(row.credit)}</td><td class="tb-td-num tb-td-balance"><strong>${_fmtNum(row.balance)}</strong></td></tr>`;
+   });
+  }
+  html+=`</tbody><tfoot><tr><td></td><td>${esc(tbFooterLabel)}</td><td class="tb-td-num inc">${_fmtNum(tbFooterDebit)}</td><td class="tb-td-num exp">${_fmtNum(tbFooterCredit)}</td><td class="tb-td-num">${Math.abs(tbFooterDebit-tbFooterCredit)<0.0001?'<span class="pill" style="background:#064E3B;color:#6EE7B7">สมดุล ✓</span>':'<span class="pill" style="background:#4C0519;color:#FDA4AF">ไม่สมดุล ✕</span>'}</td></tr></tfoot></table></div><div class="tb-cards">${tbCards}</div></section>`;
  html+=`<div class="summaryline" style="margin-top:8px"><span>รวมเดบิตงบทดลอง (ทั้งงวด)</span><strong>${money(tbd)}</strong></div>`;
  html+=`<div class="summaryline" style="margin-top:8px"><span>รวมเครดิตงบทดลอง (ทั้งงวด)</span><strong>${money(tbc)}</strong></div>`;
 
