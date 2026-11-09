@@ -78,8 +78,8 @@ input[type="date"]::-webkit-datetime-edit,input[type="date"]::-webkit-datetime-e
 input[type="date"]::-webkit-inner-spin-button,input[type="month"]::-webkit-inner-spin-button{height:auto}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .grid>div{min-width:0}
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.actions button{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 3px;color:#CBD5E1;font-weight:500}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.actions button{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 3px;color:#CBD5E1;font-weight:500;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px}
 .actions button.active{border-color:#94A3B8;background:#334155;color:#fff}
 .amount{font-size:24px;font-weight:600}
 .save{width:100%;padding:14px;margin-top:3px}
@@ -104,7 +104,7 @@ input[type="date"]::-webkit-inner-spin-button,input[type="month"]::-webkit-inner
 .settings-row .grow{flex:1;min-width:0}
 .settings-row input{max-width:125px;text-align:right}
 .settings-row button{flex-shrink:0}
-.bottom-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:#1A2028ee;backdrop-filter:blur(18px);border-top:1px solid #2A3441;padding:8px 5px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr)}
+.bottom-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:#1A2028ee;backdrop-filter:blur(18px);border-top:1px solid #2A3441;padding:8px 5px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(6,1fr)}
 .nav-btn{border:0;background:transparent;color:#94A3B8;font-size:10px;font-weight:500;display:grid;justify-items:center;gap:4px;padding:5px 0}
 .nav-btn .symbol{font-size:21px;line-height:1.1}
 .nav-btn.active{color:#10B981}
@@ -815,6 +815,183 @@ body.dark-mode #page-journal .mig-table th,body.dark-mode #page-journal .mig-tab
 #journalListMount .jrnl-table thead th{color:#F1F5F9;font-weight:600}
 #journalListMount .jrnl-table tbody td{color:#CBD5E1}
 #journalListMount .jrnl-table tbody td .jrnl-debit,#journalListMount .jrnl-table tbody td .jrnl-credit,#journalListMount .jrnl-table tbody td.jrnl-debit,#journalListMount .jrnl-table tbody td.jrnl-credit{color:#F1F5F9;font-weight:600}
+
+/* Journal Mobile Card Layout */
+@media (max-width: 768px) {
+  #journalListMount .jrnl-scroll { display: none; }
+  #journalListMount .jrnl-cards { display: flex; flex-direction: column; gap: 8px; }
+  #journalListMount .jrnl-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  #journalListMount .jrnl-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  #journalListMount .jrnl-card-date {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  #journalListMount .jrnl-card-no {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: monospace;
+  }
+  #journalListMount .jrnl-card-status {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--panel2);
+    color: var(--muted);
+  }
+  #journalListMount .jrnl-card-desc-main {
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  #journalListMount .jrnl-card-totals {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  #journalListMount .jrnl-card-total-debit { color: var(--red); }
+  #journalListMount .jrnl-card-total-credit { color: var(--green); }
+  #journalListMount .jrnl-card-lines {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+  #journalListMount .jrnl-card-line {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  #journalListMount .jrnl-card-line:last-child { border-bottom: none; }
+  #journalListMount .jrnl-card-acct {
+    color: var(--muted);
+    font-size: 11px;
+  }
+  #journalListMount .jrnl-card-desc {
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #journalListMount .jrnl-card-amounts {
+    display: flex;
+    gap: 12px;
+    text-align: right;
+  }
+  #journalListMount .jrnl-card-debit { color: var(--red); }
+  #journalListMount .jrnl-card-credit { color: var(--green); }
+  #journalListMount .jrnl-card-toggle {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  #journalListMount .jrnl-card-toggle:hover {
+    background: var(--panel2);
+    color: var(--ink);
+  }
+}
+@media (min-width: 769px) {
+  #journalListMount .jrnl-cards { display: none; }
+  #journalListMount .jrnl-scroll { display: block; }
+}
+
+/* General Ledger Mobile Card Layout */
+@media (max-width: 768px) {
+  #page-gl .gl-table-scroll { display: none; }
+  #page-gl .gl-cards { display: flex; flex-direction: column; gap: 8px; }
+  #page-gl .gl-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  #page-gl .gl-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  #page-gl .gl-card-date {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  #page-gl .gl-card-ref {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: monospace;
+  }
+  #page-gl .gl-card-totals {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  #page-gl .gl-card-total-debit { color: var(--red); }
+  #page-gl .gl-card-total-credit { color: var(--green); }
+  #page-gl .gl-card-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  #page-gl .gl-card-line {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  #page-gl .gl-card-line:last-child { border-bottom: none; }
+  #page-gl .gl-card-desc {
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  #page-gl .gl-card-amounts {
+    display: flex;
+    gap: 12px;
+    text-align: right;
+    white-space: nowrap;
+  }
+  #page-gl .gl-card-debit { color: var(--red); font-weight: 500; }
+  #page-gl .gl-card-credit { color: var(--green); font-weight: 500; }
+  #page-gl .gl-card-bal { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; min-width: 80px; text-align: right; }
+}
+@media (min-width: 769px) {
+  #page-gl .gl-cards { display: none; }
+  #page-gl .gl-table-scroll { display: block; }
+}
 </style>
 
 <style id="dashboardErpCss">
@@ -981,7 +1158,7 @@ body{padding-bottom:0 !important}
         <p class="small">ประมวลผลรูปในเบราว์เซอร์ รูปสลิปไม่ถูกส่งไปยังเซิร์ฟเวอร์ OCR โดยโค้ดนี้ แต่ระบบต้องดาวน์โหลดตัวอ่านและชุดภาษาเมื่อใช้ครั้งแรก ยอดเงินและวันที่อาจอ่านผิด กรุณาตรวจสอบก่อนบันทึก</p>
       </div>
     </section>
-    <div class="actions"><button class="active" data-type="Expense">− รายจ่าย</button><button data-type="Income">＋ รายรับ</button><button data-type="Transfer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M16 3l4 4-4 4"/><path d="M20 7H4"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h16"/></svg> โอนเงิน</button><button type="button" id="recordModeManual" data-mode="Manual">✎ บันทึกแบบแมนนวล</button></div>
+    <div class="actions"><button class="active" data-type="Expense">− รายจ่าย</button><button type="button" id="recordModeManual" data-mode="Manual">✎ บันทึกแบบแมนนวล</button><button data-type="Income">＋ รายรับ</button><button data-type="Transfer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M16 3l4 4-4 4"/><path d="M20 7H4"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h16"/></svg> โอนเงิน</button></div>
     <section class="card">
       <form id="form" class="stack tx-form">
         <div class="tx-grid tx-grid-2" id="txDateDocRow"><div><label for="date">วันที่ *</label><input id="date" type="date" required></div><div><label for="docNo">เลขที่เอกสาร</label><input id="docNo" type="text" maxlength="80" placeholder="ไม่บังคับ (กรอกเอง)"></div></div>
@@ -1294,8 +1471,14 @@ function renderGeneralLedgerPage(){
   moves.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
   let run=opening; let totD=0; let totC=0;
   const rows=moves.map(m=>{ run+=m.amt; totD+=m.debit; totC+=m.credit; return `<tr><td>${fmtDate(m.date||'')}</td><td>${esc(String(m.ref||'').trim())}</td><td>${esc(m.desc||'')}</td><td style="text-align:right">${money(m.debit)}</td><td style="text-align:right">${money(m.credit)}</td><td style="text-align:right">${money(run)}</td></tr>`; }).join('');
+  /* Mobile card layout: group by date+ref (transaction group) */
+  const cardGroups=[]; let cg=null;
+  moves.forEach(m=>{ const key=m.date+'|'+m.ref; if(!cg||cg.key!==key){cg={key,date:fmtDate(m.date),ref:m.ref,lines:[]};cardGroups.push(cg);} cg.lines.push({desc:m.desc,debit:m.debit,credit:m.credit,bal:0}); });
+  let cardRun=opening;
+  const cards=cardGroups.map(g=>{ g.lines.forEach(l=>{cardRun+=l.debit-l.credit; l.bal=cardRun;}); const totalD=g.lines.reduce((s,l)=>s+l.debit,0); const totalC=g.lines.reduce((s,l)=>s+l.credit,0); const linesHtml=g.lines.map(l=>`<div class="gl-card-line"><div class="gl-card-desc">${esc(l.desc||'')}</div><div class="gl-card-amounts"><span class="gl-card-debit">${l.debit?money(l.debit):''}</span><span class="gl-card-credit">${l.credit?money(l.credit):''}</span><span class="gl-card-bal">${money(l.bal)}</span></div></div>`).join(''); return `<article class="gl-card"><header class="gl-card-head"><div class="gl-card-date">${g.date}</div><div class="gl-card-ref">${esc(g.ref||'')}</div></header><div class="gl-card-totals"><span class="gl-card-total-debit">${totalD?money(totalD):''}</span><span class="gl-card-total-credit">${totalC?money(totalC):''}</span></div><div class="gl-card-lines">${linesHtml}</div></article>`; }).join('');
   const empty=$('glEmpty'); if(!moves.length && !opening){ if(empty)empty.style.display='block'; } else if(empty) empty.style.display='none';
   $('glBody').innerHTML = `<tr><td></td><td></td><td><strong>ยอดยกมา</strong></td><td></td><td></td><td style="text-align:right"><strong>${money(opening)}</strong></td></tr>` + rows + `<tr><td></td><td></td><td><strong>รวมรายการ</strong></td><td style="text-align:right"><strong>${money(totD)}</strong></td><td style="text-align:right"><strong>${money(totC)}</strong></td><td style="text-align:right"></td></tr>` + `<tr><td></td><td></td><td><strong>ยอดยกไป</strong></td><td></td><td></td><td style="text-align:right"><strong>${money(run)}</strong></td></tr>`;
+  const glTableCard=$('#page-gl .gl-table-card'); if(glTableCard){const cardsDiv=glTableCard.querySelector('.gl-cards')||document.createElement('div');cardsDiv.className='gl-cards';cardsDiv.innerHTML=cards;if(!glTableCard.querySelector('.gl-cards'))glTableCard.appendChild(cardsDiv);}
   if($('glSummary')) $('glSummary').innerHTML = '';
 }
 window.renderGeneralLedgerPage=renderGeneralLedgerPage;
@@ -1314,10 +1497,27 @@ const flat=[];filtered.forEach(e=>{const lines=Array.isArray(e.lines)?e.lines:[]
 const groups=[];let cur=null;flat.forEach(r=>{if(!cur||cur.dk!==r.dk){cur={dk:r.dk,dateDisp:r.dateDisp,rows:[]};groups.push(cur);}cur.rows.push(r);});
 /* 3) render with rowspan date cell once per day, G0/G1 by day group, gstart only first row of day */
 const rows=[];groups.forEach((g,gi)=>{const gcls='jrnl-g'+(gi%2);g.rows.forEach((r,ri)=>{const first=ri===0;const trcls=gcls+(first?' jrnl-gstart':'');const dateTd=first?`<td class="jrnl-date" rowspan="${g.rows.length}">${g.dateDisp}</td>`:'';rows.push(`<tr class="${trcls}">${dateTd}<td class="jrnl-no">${r.no}</td><td class="jrnl-acct">${r.accLabel}</td><td class="jrnl-desc" title="${escA(r.dRaw)}">${r.desc}</td><td class="jrnl-num">${r.dAmt?money(r.dAmt):''}</td><td class="jrnl-num">${r.cAmt?money(r.cAmt):''}</td><td class="jrnl-st">${r.status}</td></tr>`);});});
+/* 4) build mobile card layout: group by entry (docNo+date) for compact cards */
+const cardGroups=[];let cg=null;flat.forEach(r=>{const key=r.dk+'|'+r.no;if(!cg||cg.key!==key){cg={key,dateDisp:r.dateDisp,no:r.no,status:r.status,lines:[]};cardGroups.push(cg);}cg.lines.push({accLabel:r.accLabel,desc:r.desc,dRaw:r.dRaw,dAmt:r.dAmt,cAmt:r.cAmt});});
+const cards=cardGroups.map(g=>{const totalDebit=g.lines.reduce((s,l)=>s+l.dAmt,0);const totalCredit=g.lines.reduce((s,l)=>s+l.cAmt,0);const linesHtml=g.lines.map(l=>`<div class="jrnl-card-line"><div class="jrnl-card-acct">${l.accLabel}</div><div class="jrnl-card-desc" title="${escA(l.dRaw)}">${l.desc}</div><div class="jrnl-card-amounts"><span class="jrnl-card-debit">${l.dAmt?money(l.dAmt):''}</span><span class="jrnl-card-credit">${l.cAmt?money(l.cAmt):''}</span></div></div>`).join('');return `<article class="jrnl-card"><header class="jrnl-card-head"><div class="jrnl-card-date">${g.dateDisp}</div><div class="jrnl-card-no">${g.no}</div><div class="jrnl-card-status">${g.status}</div></header><div class="jrnl-card-desc-main">${g.lines[0]?.desc||''}</div><div class="jrnl-card-totals"><span class="jrnl-card-total-debit">${totalDebit?money(totalDebit):''}</span><span class="jrnl-card-total-credit">${totalCredit?money(totalCredit):''}</span></div><div class="jrnl-card-lines" hidden>${linesHtml}</div><button type="button" class="jrnl-card-toggle" aria-expanded="false" aria-controls="jrnl-card-lines-${g.key.replace(/[^a-z0-9]/gi,'')}">รายละเอียดบัญชี</button></article>`;}).join('');
 const emptyMsg=hasFilter?'ไม่พบรายการ': 'ไม่มีรายการ';
-mount.innerHTML=`<section class="coa-card jrnl-card" style="margin-bottom:12px"><div class="small jrnl-summary">รายการ Journal ${filtered.length}${hasFilter?` / ${sorted.length}`:''} รายการ · ${rows.length} บรรทัด (lines)${hasFilter?' <span style="color:var(--muted,#94A3B8)">(กำลังกรอง)</span>':''}</div><div class="jrnl-scroll"><table class="jrnl-table jrnl-grouped"><colgroup><col class="jrnl-col-date"><col class="jrnl-col-no"><col class="jrnl-col-acct"><col class="jrnl-col-desc"><col class="jrnl-col-num"><col class="jrnl-col-num"><col class="jrnl-col-st"></colgroup><thead><tr><th class="jrnl-th-date">วันที่</th><th class="jrnl-th-no">เลขที่เอกสาร</th><th>รหัสบัญชี / ชื่อบัญชี</th><th>รายละเอียด</th><th class="jrnl-th-num">เดบิต</th><th class="jrnl-th-num">เครดิต</th><th class="jrnl-th-st">สถานะ</th></tr></thead><tbody>${rows.join('')||`<tr><td colspan="7" class="small jrnl-empty">${emptyMsg}</td></tr>`}</tbody></table></div></section>`;} window.navigate = navigate;
+mount.innerHTML=`<section class="coa-card jrnl-card" style="margin-bottom:12px"><div class="small jrnl-summary">รายการ Journal ${filtered.length}${hasFilter?` / ${sorted.length}`:''} รายการ · ${rows.length} บรรทัด (lines)${hasFilter?' <span style="color:var(--muted,#94A3B8)">(กำลังกรอง)</span>':''}</div><div class="jrnl-scroll"><table class="jrnl-table jrnl-grouped"><colgroup><col class="jrnl-col-date"><col class="jrnl-col-no"><col class="jrnl-col-acct"><col class="jrnl-col-desc"><col class="jrnl-col-num"><col class="jrnl-col-num"><col class="jrnl-col-st"></colgroup><thead><tr><th class="jrnl-th-date">วันที่</th><th class="jrnl-th-no">เลขที่เอกสาร</th><th>รหัสบัญชี / ชื่อบัญชี</th><th>รายละเอียด</th><th class="jrnl-th-num">เดบิต</th><th class="jrnl-th-num">เครดิต</th><th class="jrnl-th-st">สถานะ</th></tr></thead><tbody>${rows.join('')||`<tr><td colspan="7" class="small jrnl-empty">${emptyMsg}</td></tr>`}</tbody></table></div><div class="jrnl-cards">${cards}</div></section>`;} window.navigate = navigate;
 // journal search (real-time, read-only filter)
 (function(){if(window.__jrnlSearchWired)return;window.__jrnlSearchWired=true;const rer=()=>{try{if(typeof renderJournal==='function')renderJournal()}catch(_){}};['journalSearchQ','journalAccountFilter','journalDateFrom','journalDateTo'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('input',rer);el.addEventListener('change',rer);});const cq=document.getElementById('journalSearchClearQ');if(cq)cq.addEventListener('click',()=>{const q=document.getElementById('journalSearchQ');if(q){q.value='';q.focus();}rer();});const cs=document.getElementById('journalFilterSearch');if(cs)cs.addEventListener('click',rer);const cd=document.getElementById('journalFilterClear')||document.getElementById('journalDateClear');if(cd)cd.addEventListener('click',()=>{const q=document.getElementById('journalSearchQ'),a=document.getElementById('journalDateFrom'),b=document.getElementById('journalDateTo'),f=document.getElementById('journalAccountFilter');if(q)q.value='';if(a)a.value='';if(b)b.value='';if(f)f.value='';rer();});})();
+
+// Journal card toggle (delegated)
+document.addEventListener('click', e => {
+  const toggle = e.target.closest('.jrnl-card-toggle');
+  if (!toggle) return;
+  const card = toggle.closest('.jrnl-card');
+  if (!card) return;
+  const lines = card.querySelector('.jrnl-card-lines');
+  if (!lines) return;
+  const expanded = toggle.getAttribute('aria-expanded') === 'true';
+  toggle.setAttribute('aria-expanded', String(!expanded));
+  lines.hidden = expanded;
+  toggle.textContent = expanded ? 'รายละเอียดบัญชี' : 'ซ่อนรายละเอียด';
+});
 
 document.addEventListener('click',e=>{console.log('EVENT: document received click');const go=e.target.closest('[data-go]');console.log('ANALYSIS: e.target tagName =', e.target.tagName, 'type =', e.target.type);console.log('SEARCH: closest [data-go] =', go);if(go){console.log('BUTTON: go.dataset.go =', go.dataset.go);e.preventDefault();navigate(go.dataset.go)}});
 function fillSelect(id,values,selected){const el=$(id);if(!el)return;const norm=(Array.isArray(values)?values:[]).map(v=>{if(v&&typeof v==='object'&&('value' in v||'id' in v))return{value:String(v.value!=null?v.value:v.id),text:String(v.text!=null?v.text:(v.code?String(v.code)+' '+(v.name||''): (v.name||v.value||v.id||'')))};return{value:String(v==null?'':v),text:String(v==null?'':v)}});el.innerHTML=norm.map(v=>`<option value="${esc(v.value)}">${esc(v.text)}</option>`).join('');if(selected!=null&&selected!==''){const s=String(selected);if(norm.some(v=>v.value===s))el.value=s;else{const o=document.createElement('option');o.value=s;o.textContent=s;o.dataset.legacy='1';el.appendChild(o);el.value=s}}}
@@ -1955,7 +2155,7 @@ const stBadge=s=>{const st=s.status||MAP_STATUS.Unmapped;const m={Legacy:'hd',Ma
   return `<div class="settings-row" data-rid="${s.rid}"><div class="grow"><strong>${esc(s.name)}</strong><div class="small">${lab[s.kind]} · ${TYPES[s.type]||''}${t?' → <b>'+esc(t.code)+' '+esc(t.name)+'</b>':''} ${stBadge(s)}</div></div><div class="rowbuttons">${acts}</div></div>`};
   return `<div class="small" style="margin:4px 0 8px">ทั้งหมด ${src.length} · จับคู่แล้ว ${src.filter(isMapped).length} · ยืนยันแล้ว ${src.filter(isVerified).length} · ยังไม่ได้จับคู่ ${unmapped().length}</div><div class="map-controls"><button class="btn ${ui.mapFilter==='all'?'active':''}" data-coa-mfilter="all">ทั้งหมด</button><button class="btn ${ui.mapFilter==='unmapped'?'active':''}" data-coa-mfilter="unmapped">ยังไม่จับคู่</button><button class="btn ${ui.mapFilter==='mapped'?'active':''}" data-coa-mfilter="mapped">จับคู่แล้ว</button><button class="btn ${ui.mapFilter==='verified'?'active':''}" data-coa-mfilter="verified">ยืนยันแล้ว</button><button class="btn ${ui.mapFilter==='legacy'?'active':''}" data-coa-mfilter="legacy">Legacy</button></div><div class="map-controls"><button class="btn ${ui.mapKind==='all'?'active':''}" data-coa-mkind="all">ทั้งหมด</button><button class="btn ${ui.mapKind==='account'?'active':''}" data-coa-mkind="account">บัญชี</button><button class="btn ${ui.mapKind==='Income'?'active':''}" data-coa-mkind="Income">categories รายรับ</button><button class="btn ${ui.mapKind==='Expense'?'active':''}" data-coa-mkind="Expense">categories 详情จ่าย</button></div><div style="margin-bottom:8px"><input id="coaMapSearch" type="search" placeholder="ค้นหาชื่อต้นทาง" value="${esc(ui.mapQuery)}" style="width:100%"></div>${filtered.length?filtered.map(row).join(''):'<div class="small">ไม่พบข้อมูลตามตัวกรอง</div>'}`}
 function body(){const b=$$('coaBody');if(b)b.innerHTML=ui.tab==='tree'?treeHTML():mapHTML();const c=$$('coaUnCount');if(c)c.textContent=unmapped().length;}
-window.renderCOA=function(){const p=$$('page-coa');if(!p)return;ui.tab='tree';sync();p.innerHTML=`<div class="coa-header"><div><p class="eyebrow">CHART OF ACCOUNTS</p><h2>ผังบัญชี</h2><p class="coa-sub">โครงสร้างบัญชีและสถานะการจับคู่</p></div><div class="coa-header-actions"><button class="btn secondary" data-go="settings">← ย้อนกลับ</button><button class="btn primary" data-coa-add>＋ สร้างบัญชี</button></div></div>${locked?`<div class="warning-note">${esc(lockMsg)}</div>`:''}<div class="coa-seg"><button class="active" data-coa-tab="tree">ผังบัญชี</button></div><section class="coa-card">${ui.tab==='tree'?`<div class="coa-toolbar"><input id="coaSearch" type="search" placeholder="ค้นหารหัสหรือชื่อบัญชี" value="${esc(ui.q)}"><div class="coa-toolbar-actions"><button class="btn primary" data-coa-add>＋ เพิ่มบัญชี</button><button class="btn secondary" data-coa-card>▭ บัตรเครดิต</button><button class="btn secondary" data-coa-all="1">ขยายทั้งหมด</button><button class="btn secondary" data-coa-all="0">ย่อทั้งหมด</button></div></div><label class="coa-check"><input type="checkbox" id="coaHidden" ${ui.hidden?'checked':''}> แสดงบัญชีที่ปิดใช้งานและบัญชีระบบ</label>`:''}<div id="coaBody"></div></section>`;body()};
+window.renderCOA=function(){const p=$$('page-coa');if(!p)return;ui.tab='tree';sync();p.innerHTML=`<div class="coa-header"><div><p class="eyebrow">CHART OF ACCOUNTS</p><h2>ผังบัญชี</h2><p class="coa-sub">โครงสร้างบัญชีและสถานะการจับคู่</p></div><div class="coa-header-actions"><button class="btn secondary" data-go="settings">← ย้อนกลับ</button><button class="btn primary" data-coa-add>＋ สร้างบัญชี</button></div></div>${locked?`<div class="warning-note">${esc(lockMsg)}</div>`:''}<div class="coa-seg"><button class="active" data-coa-tab="tree">ผังบัญชี</button></div><section class="coa-card">${ui.tab==='tree'?`<div class="coa-toolbar"><input id="coaSearch" type="search" placeholder="ค้นหารหัสหรือชื่อบัญชี" value="${esc(ui.q)}"><div class="coa-toolbar-actions"><button class="btn primary" data-coa-add>＋ เพิ่มบัญชี</button><button class="btn secondary" data-coa-all="1">ขยายทั้งหมด</button><button class="btn secondary" data-coa-all="0">ย่อทั้งหมด</button></div></div><label class="coa-check"><input type="checkbox" id="coaHidden" ${ui.hidden?'checked':''}> แสดงบัญชีที่ปิดใช้งานและบัญชีระบบ</label>`:''}<div id="coaBody"></div></section>`;body()};
 function parentOptions(sel,selfId){const ex=selfId?new Set([selfId,...desc(selfId)]):new Set();return coa.filter(x=>x.isHeader&&x.isActive&&!isSpecial(x)&&!ex.has(x.id)).sort((a,b)=>a.code.localeCompare(b.code)).map(x=>`<option value="${x.id}" ${x.id===sel?'selected':''}>${esc(x.code)} ${esc(x.name)}</option>`).join('')}
 function openForm(id){ui.editing=id||null;const x=id?get(id):null,root=x&&!x.parentId,sp=x&&isSpecial(x);const dp=x?x.parentId:(coa.find(y=>y.code==='1100')||{}).id;
  openBottomSheet({title:x?'แก้ไขบัญชี':'เพิ่มบัญชี',content:`<div class="stack"><div><label for="coaF_name">ชื่อบัญชี</label><input id="coaF_name" maxlength="80" value="${x?esc(x.name):''}"></div><div class="grid"><div><label for="coaF_code">รหัส (4 หลัก)</label><input id="coaF_code" inputmode="numeric" maxlength="4" value="${x?esc(x.code):esc(nextCode(dp))}"></div><div><label for="coaF_parent">บัญชีแม่</label><select id="coaF_parent" ${root?'disabled':''}>${root?'<option>— หมวดหลัก —</option>':parentOptions(dp,id)}</select></div></div><label class="small"><input type="checkbox" id="coaF_header" ${x&&x.isHeader?'checked':''} ${sp?'disabled':''}> เป็นบัญชีแม่ (Header) — ไม่สามารถบันทึกรายการได้</label><label class="small"><input type="checkbox" id="coaF_post" ${!x||x.allowPosting?'checked':''} ${sp?'disabled':''}> อนุญาตให้บันทึกรายการ (Postable)</label><p class="message" id="coaF_err" style="color:var(--red)"></p></div>`,footer:'<button class="btn primary" data-coa-save>บันทึก</button>'})}
@@ -1968,10 +2168,8 @@ document.addEventListener('click',e=>{const q=s=>e.target.closest(s);let b;
  if(b=q('[data-coa-toggle]')){const id=b.dataset.coaToggle;ui.open.has(id)?ui.open.delete(id):ui.open.add(id);body();return}
  if(b=q('[data-coa-all]')){ui.open=b.dataset.coaAll==='1'?new Set(coa.filter(x=>x.isHeader).map(x=>x.id)):new Set();body();return}
  if(q('[data-coa-add]')){openForm(null);return}
- if(b=q('[data-coa-edit]')){openForm(b.dataset.coaEdit);return}
- if(q('[data-coa-card]')){openBottomSheet({title:'สร้างบัญชีบัตรเครดิต',content:'<div class="stack"><div><label for="coaCC_name">ชื่อบัตรเครดิต</label><input id="coaCC_name" maxlength="80" placeholder="เช่น บัตร KTC"></div><p class="small">จะสร้างเป็นบัญชีลูกโดยตรงของ 2100 เจ้าหนี้บัตรเครดิต และกำหนดรหัสให้อัตโนมัติ</p><p class="message" id="coaF_err" style="color:var(--red)"></p></div>',footer:'<button class="btn primary" data-coa-cc-save>สร้างบัญชี</button>'});return}
- if(q('[data-coa-cc-save]')){const r=addCreditCard($$('coaCC_name').value.trim());if(!r.ok){sheetErr(r.error);return}closeBottomSheet();ui.open.add(r.item.parentId);renderCOA();toast('สร้างบัญชีบัตรเครดิตแล้ว');return}
- if(q('[data-coa-save]')){const o={name:$$('coaF_name').value,code:$$('coaF_code').value,isHeader:$$('coaF_header').checked,allowPosting:$$('coaF_post').checked};const x=ui.editing?get(ui.editing):null;o.parentId=x&&!x.parentId?null:$$('coaF_parent').value;const r=x?updateAccount(x.id,o):addAccount(o);if(!r.ok){sheetErr(r.error);return}closeBottomSheet();if(r.item.parentId)ui.open.add(r.item.parentId);renderCOA();toast(x?'บันทึกการแก้ไขแล้ว':'เพิ่มบัญชีแล้ว');return}
+if(b=q('[data-coa-edit]')){openForm(b.dataset.coaEdit);return}
+  if(q('[data-coa-save]')){const o={name:$$('coaF_name').value,code:$$('coaF_code').value,isHeader:$$('coaF_header').checked,allowPosting:$$('coaF_post').checked};const x=ui.editing?get(ui.editing):null;o.parentId=x&&!x.parentId?null:$$('coaF_parent').value;const r=x?updateAccount(x.id,o):addAccount(o);if(!r.ok){sheetErr(r.error);return}closeBottomSheet();if(r.item.parentId)ui.open.add(r.item.parentId);renderCOA();toast(x?'บันทึกการแก้ไขแล้ว':'เพิ่มบัญชีแล้ว');return}
  if(b=q('[data-coa-off]')){const r=deactivate(b.dataset.coaOff);r.ok?(renderCOA(),toast('ปิดใช้งานบัญชีแล้ว')):toast(r.error,'error');return}
  if(b=q('[data-coa-on]')){const r=activate(b.dataset.coaOn);r.ok?(renderCOA(),toast('เปิดใช้งานบัญชีแล้ว')):toast(r.error,'error');return}
  if(b=q('[data-coa-map]')){const s=sync().find(z=>z.rid===b.dataset.coaMap);if(!s)return;ui.mapRid=s.rid;const cur=links.map[s.rid];const opts=coa.filter(x=>canMapTo(x.id)&&x.type===s.type).sort((a,c)=>a.code.localeCompare(c.code)).map(x=>`<option value="${x.id}" ${x.id===cur?'selected':''}>${esc(x.code)} ${esc(x.name)}</option>`).join('');openBottomSheet({title:'จับคู่บัญชี',content:`<div class="stack"><p><strong>${esc(s.name)}</strong><br><span class="small">${TYPES[s.type]||''}</span></p><div><label for="coaM_sel">เลือกบัญชีในผังบัญชี</label><select id="coaM_sel">${opts||'<option value="">ไม่มีบัญชีที่จับคู่ได้</option>'}</select></div><p class="small">เลือกได้เฉพาะบัญชีที่เปิดใช้งาน อนุญาต Post และประเภทตรงกัน</p><p class="message" id="coaF_err" style="color:var(--red)"></p></div>`,footer:'<button class="btn primary" data-coa-map-ok>บันทึกการจับคู่</button>'});return}
