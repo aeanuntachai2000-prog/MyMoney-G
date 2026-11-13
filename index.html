@@ -300,60 +300,62 @@ button, input, select { font: inherit; }
     grid-row: 1 / span 2;
   }
 
-  /* ซ่อนหัวตารางเดิมบนมือถือ */
-  .column-head { display: none; }
+  
+  /* สมุดรายวันบนมือถือ: 3 คอลัมน์เหมือนรูปแบบบัญชีจริง */
+  .account-row,
+  .column-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 78px 78px;
+    gap: 6px;
+    align-items: center;
+    padding: 10px 9px;
+  }
 
-  /* หนึ่งบรรทัดบัญชีต่อหนึ่งชุด */
-  .account-row {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding: 11px 12px;
+  .column-head {
+    display: grid;
+    font-size: 10px;
   }
 
   .account-name {
-    padding-bottom: 8px;
-    font-size: 13px;
+    min-width: 0;
+    font-size: 12px;
+    overflow-wrap: anywhere;
   }
 
-  /* แยกเดบิตและเครดิตคนละบรรทัด */
   .amount {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: block;
+    min-width: 0;
     text-align: right;
-    padding: 5px 0;
-    font-size: 13px;
+    white-space: nowrap;
+    font-size: 11px;
+    padding: 0;
   }
 
   .amount::before {
-    color: var(--muted);
-    font-size: 11px;
+    content: none !important;
   }
 
-  .amount.debit::before { content: "เดบิต"; }
-  .amount.credit::before { content: "เครดิต"; }
 
-  .entry-total {
-    grid-template-columns: 1fr;
-    gap: 7px;
-    padding: 12px;
-    font-size: 12px;
-  }
+  
+.entry-total {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 78px 78px;
+  gap: 6px;
+  align-items: center;
+  padding: 12px 9px;
+  font-size: 11px;
+}
 
-  .entry-total .total-value {
-    display: flex;
-    justify-content: space-between;
-  }
+.entry-total .total-value {
+  display: block;
+  min-width: 0;
+  text-align: right;
+  white-space: nowrap;
+}
 
-  .entry-total .total-value::before {
-    color: var(--muted);
-    font-weight: 400;
-  }
-
-  .entry-total .total-debit::before { content: "รวมเดบิต"; }
-  .entry-total .total-credit::before { content: "รวมเครดิต"; }
+.entry-total .total-value::before {
+  content: none !important;
+}
 
   .footer-total {
     justify-content: space-between;
